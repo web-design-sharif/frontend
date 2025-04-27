@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  frontend:
+    build: .
+    container_name: web-front-app
+    ports:
+      - "3000:80" 
+    volumes:
+      - ./:/app    # Optional: For development (live-reload)
+      - /app/node_modules 
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
