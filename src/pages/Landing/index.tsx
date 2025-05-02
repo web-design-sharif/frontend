@@ -10,7 +10,8 @@ import Footer from "./Footer";
 const Landing = () => {
   return (
     <Box>
-      <Navbar />
+      <Navbar position="fixed" zIndex={3} />
+      <Box paddingTop={150} />
       <Title />
       <Create />
       <Analyze />

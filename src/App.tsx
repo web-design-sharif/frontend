@@ -1,12 +1,15 @@
-import { Box } from '@chakra-ui/react';
 import Landing from './pages/Landing';
+import { Routes, Route, Outlet, BrowserRouter } from "react-router";
 
 function App() {
   return (
-    <Box>
-      <Landing />
-    </Box>
+    <BrowserRouter>
+      <Routes>
+          <Route index element={<Landing />} />
+      </Routes>
+    </BrowserRouter>
   );
+
 }
 
 export default App;

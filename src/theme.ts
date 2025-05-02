@@ -6,15 +6,15 @@ const config = defineConfig({
       colorPalette: "cyan",
     },
     "*": {
-      fontFamily: "'Vazir', sens-serif",
+      fontFamily: "'Montserrat', sens-serif",
     },
   },
   theme: {
     tokens: {
       fonts: {
-        body: { value: "'Vazir', sens-serif" },
-        heading: { value: "'Vazir', sens-serif" },
-        Text: { value: "'Vazir', sens-serif" },
+        body: { value: "'Montserrat', sens-serif" },
+        heading: { value: "'Montserrat', sens-serif" },
+        Text: { value: "'Montserrat', sens-serif" },
       },
     },
   },
