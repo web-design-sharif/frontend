@@ -1,10 +1,10 @@
-import { Button, Box, Heading } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
+import Landing from './pages/Landing';
 
 function App() {
   return (
-    <Box p={8}>
-      <Heading mb={4}>Welcome</Heading>
-      <Button colorScheme="teal">Click me</Button>
+    <Box>
+      <Landing />
     </Box>
   );
 }
