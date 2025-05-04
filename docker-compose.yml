@@ -4,10 +4,11 @@ services:
     build: .
     container_name: web-front-app
     ports:
-      - "3000:80" 
+      - "${SERVICE_PORT}:${NGINX_PORT}"
     volumes:
       - ./:/app    # Optional: For development (live-reload)
-      - /app/node_modules 
+      - /app/node_modules
     environment:
-      - NODE_ENV=development
+      NODE_ENV: "development"
+      baseUrl: ${BASE_URL}
     restart: unless-stopped
