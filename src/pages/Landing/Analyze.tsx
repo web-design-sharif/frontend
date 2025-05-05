@@ -25,7 +25,7 @@ const Analyze = () => {
           <Link href="#" fontWeight="bold" fontSize="lg" color="teal.700" _hover={{ textDecoration: "underline" }}>
             Visualize The Data
           </Link>
-          <Box my={2} w="40px" mx="auto" borderBottom="1px solid" borderColor="gray.300" />
+          <Box my={2} w="300px" mx="auto" borderBottom="1px solid" borderColor="gray.300" />
           <Text fontSize="sm" color="gray.700">
             View automated charts based on respondents’ answers in real-time.
             <br /><br />
@@ -51,7 +51,7 @@ const Analyze = () => {
           <Link href="#" fontWeight="bold" fontSize="lg" color="teal.700" _hover={{ textDecoration: "underline" }}>
             Customize And Share
           </Link>
-          <Box my={2} w="40px" mx="auto" borderBottom="1px solid" borderColor="gray.300" />
+          <Box my={2} w="300px" mx="auto" borderBottom="1px solid" borderColor="gray.300" />
           <Text fontSize="sm" color="gray.700">
             Customize the charts by choosing a color pallet and adding descriptions and images to them.
             <br /><br />
