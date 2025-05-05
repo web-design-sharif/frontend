@@ -1,9 +1,17 @@
-import { Box, Grid, Text, Heading, Stack, Link } from "@chakra-ui/react";
+import { Box, Grid, Text, Heading, Stack } from "@chakra-ui/react";
 
 const Customize = () => {
+  const items = [
+    {title: "Choose From Templates", text:"Select from a variety of surveys, questionnaires, and other templates to get started quickly." },
+    {title:"Create Custom Flows And Quizzes", text:"Add logic to show relevant questions based on previous answers to help boost completion rates. Or, create quizzes to test knowledge."},
+    {title:"Customize To Match Your Brand", text:"Choose from colors, images, and fonts to match your organization’s branding."},
+    {title:"Gather Responses From Anywhere", text:"Respondents can easily access and complete forms from any device."}
+  ]
+
+
   return (
     <Box py={16} px={8} textAlign="center">
-      <Heading as="h2" size="xl" mb={4} color="teal.700">
+      <Heading as="h2" size="3xl" mb={4} color="colorPalette.700" fontWeight="bold">
         Customize
       </Heading>
       <Text maxW="800px" mx="auto" mb={12} color="gray.600">
@@ -11,52 +19,26 @@ const Customize = () => {
       </Text>
 
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={12}>
-        {/* Box 1 */}
-        <Stack direction="column" align="center">
-          <Box w="150px" h="150px" bg="gray.300" />
-          <Link href="#" fontWeight="bold" color="teal.800" _hover={{ textDecoration: "underline" }}>
-            Choose From Templates
-          </Link>
-          <Text fontSize="sm" color="gray.600" maxW="350px" textAlign="center">
-            Select from a variety of surveys, questionnaires, and other templates to get started quickly.
-          </Text>
-        </Stack>
-
-        {/* Box 2 */}
-        <Stack direction="column" align="center">
-          <Box w="150px" h="150px" bg="gray.300" />
-          <Link href="#" fontWeight="bold" color="teal.800" _hover={{ textDecoration: "underline" }}>
-            Create Custom Flows And Quizzes
-          </Link>
-          <Text fontSize="sm" color="gray.600" maxW="350px" textAlign="center">
-            Add logic to show relevant questions based on previous answers to help boost completion rates. Or, create quizzes to test knowledge.
-          </Text>
-        </Stack>
-
-        {/* Box 3 */}
-        <Stack direction="column" align="center">
-          <Box w="150px" h="150px" bg="gray.300" />
-          <Link href="#" fontWeight="bold" color="teal.800" _hover={{ textDecoration: "underline" }}>
-            Customize To Match Your Brand
-          </Link>
-          <Text fontSize="sm" color="gray.600" maxW="350px" textAlign="center">
-            Choose from colors, images, and fonts to match your organization’s branding.
-          </Text>
-        </Stack>
-
-        {/* Box 4 */}
-        <Stack direction="column" align="center">
-          <Box w="150px" h="150px" bg="gray.300" />
-          <Link href="#" fontWeight="bold" color="teal.800" _hover={{ textDecoration: "underline" }}>
-            Gather Responses From Anywhere
-          </Link>
-          <Text fontSize="sm" color="gray.600" maxW="350px" textAlign="center">
-            Respondents can easily access and complete forms from any device.
-          </Text>
-        </Stack>
+        {items.map((item, index) => (
+          <ItemBox key={index} title={item.title} text={item.text} />
+        ))}
       </Grid>
     </Box>
   );
 };
+
+const ItemBox = ({title, text}: {title: string, text: string}) => {
+  return (
+    <Stack direction="column" align="center" height="100%">
+      <Box w="150px" h="150px" bg="gray.300" />
+      <Heading fontWeight="bold" color="colorPalette.700" size="xl">
+        {title}
+      </Heading>
+      <Text fontSize="sm" color="gray.600" maxW="350px" textAlign="center">
+        {text}
+      </Text>
+    </Stack>
+  );
+}
 
 export default Customize;

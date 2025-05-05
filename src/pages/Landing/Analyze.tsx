@@ -3,7 +3,7 @@ import { Box, Grid, Text, Heading, Stack, Link } from "@chakra-ui/react";
 const Analyze = () => {
   return (
     <Box py={16} px={8} textAlign="center" bg="gray.50">
-      <Heading as="h2" size="xl" mb={12} color="teal.700">
+      <Heading as="h2" size="3xl" mb={12} color="black" fontWeight="bold">
         Analyzing Data
       </Heading>
 
@@ -22,7 +22,7 @@ const Analyze = () => {
           maxW="350px"
           bg="white"
         >
-          <Link href="#" fontWeight="bold" fontSize="lg" color="teal.700" _hover={{ textDecoration: "underline" }}>
+          <Link href="#" fontWeight="bold" fontSize="lg" color="colorPalette.700" _hover={{ textDecoration: "underline" }}>
             Visualize The Data
           </Link>
           <Box my={2} w="300px" mx="auto" borderBottom="1px solid" borderColor="gray.300" />
@@ -48,7 +48,7 @@ const Analyze = () => {
           maxW="350px"
           bg="white"
         >
-          <Link href="#" fontWeight="bold" fontSize="lg" color="teal.700" _hover={{ textDecoration: "underline" }}>
+          <Link href="#" fontWeight="bold" fontSize="lg" color="colorPalette.700" _hover={{ textDecoration: "underline" }}>
             Customize And Share
           </Link>
           <Box my={2} w="300px" mx="auto" borderBottom="1px solid" borderColor="gray.300" />
