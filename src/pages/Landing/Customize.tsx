@@ -1,44 +1,58 @@
-import { Box, Grid, Text, Heading, Stack } from "@chakra-ui/react";
+import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
 
 const Customize = () => {
-  const items = [
-    {title: "Choose From Templates", text:"Select from a variety of surveys, questionnaires, and other templates to get started quickly." },
-    {title:"Create Custom Flows And Quizzes", text:"Add logic to show relevant questions based on previous answers to help boost completion rates. Or, create quizzes to test knowledge."},
-    {title:"Customize To Match Your Brand", text:"Choose from colors, images, and fonts to match your organization’s branding."},
-    {title:"Gather Responses From Anywhere", text:"Respondents can easily access and complete forms from any device."}
-  ]
-
 
   return (
-    <Box py={16} px={8} textAlign="center">
-      <Heading as="h2" size="3xl" mb={4} color="colorPalette.700" fontWeight="bold">
-        Customize
-      </Heading>
-      <Text maxW="800px" mx="auto" mb={12} color="gray.600">
+    <Box p={8} textAlign="center">
+      <Heading mb={2}>Customize</Heading>
+      <Text maxW="600px" mx="auto" mb={10}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
       </Text>
 
-      <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={12}>
-        {items.map((item, index) => (
-          <ItemBox key={index} title={item.title} text={item.text} />
-        ))}
-      </Grid>
+      <Flex direction="column" gap={12} align="center">
+        <Flex gap={500} justify="center" flexWrap="wrap">
+          <Box maxW="200px" textAlign="center">
+            <Image src="public\team\Choose From Templates.jpg" alt="Choose From Templates" mb={4} boxSize="200px" 
+  objectFit="cover"/>
+            <Text fontWeight="bold">Choose From Templates</Text>
+            <Text fontSize="sm">
+              Select From A Variety Of Surveys, Questionnaires, And Other Templates To Get Started Quickly.
+            </Text>
+          </Box>
+
+          <Box maxW="200px" textAlign="center">
+            <Image src="public\team\Create Custom Flows And Quizzes.jpg" alt="Create Custom Flows And Quizzes" mb={4} boxSize="200px" 
+  objectFit="cover"/>
+            <Text fontWeight="bold">Create Custom Flows And Quizzes</Text>
+            <Text fontSize="sm">
+              Add Logic To Show Relevant Questions Based On Previous Answers To Help Boost Completion Rates. Or, Create Quizzes To Test Knowledge.
+            </Text>
+          </Box>
+        </Flex>
+
+        <Flex gap={500} justify="center" flexWrap="wrap">
+          <Box maxW="200px" textAlign="center">
+            <Image src="public\team\Customize To Match Your Brand.jpg" alt="Customize To Match Your Brand" mb={4} boxSize="200px" 
+  objectFit="cover"/>
+            <Text fontWeight="bold">Customize To Match Your Brand</Text>
+            <Text fontSize="sm">
+              Choose From Colors, Images, And Fonts To Match Your Organization's Branding.
+            </Text>
+          </Box>
+
+          <Box maxW="200px" textAlign="center">
+            <Image src="public\team\Gather Responses From Anywhere.jpg" alt="Gather Responses From Anywhere" mb={4} boxSize="200px" 
+  objectFit="cover"/>
+            <Text fontWeight="bold">Gather Responses From Anywhere</Text>
+            <Text fontSize="sm">
+              Respondents Can Easily Access And Complete Forms From Any Device.
+            </Text>
+          </Box>
+        </Flex>
+      </Flex>
     </Box>
   );
 };
 
-const ItemBox = ({title, text}: {title: string, text: string}) => {
-  return (
-    <Stack direction="column" align="center" height="100%">
-      <Box w="150px" h="150px" bg="gray.300" />
-      <Heading fontWeight="bold" color="colorPalette.700" size="xl">
-        {title}
-      </Heading>
-      <Text fontSize="sm" color="gray.600" maxW="350px" textAlign="center">
-        {text}
-      </Text>
-    </Stack>
-  );
-}
 
 export default Customize;
