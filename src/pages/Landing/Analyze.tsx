@@ -1,4 +1,4 @@
-import { Box, Grid, Text, Heading, Stack, Link } from "@chakra-ui/react";
+import { Box, Grid, Text, Heading, Stack, Link, Image } from "@chakra-ui/react";
 
 const Analyze = () => {
   return (
@@ -34,10 +34,24 @@ const Analyze = () => {
         </Box>
 
         {/* Box 2 - Image Placeholder */}
-        <Box w="250px" h="200px" bg="gray.300" />
+        <Box w="250px" h="200px" bg="gray.300" >
+        <Image 
+          src="public\team\Customize And Share.jpg" 
+          alt="Visualize The Data"
+          boxSize="100%"
+          objectFit="cover"
+        />
+        </Box>
 
         {/* Box 3 - Image Placeholder */}
-        <Box w="250px" h="200px" bg="gray.300" />
+        <Box w="250px" h="200px" bg="gray.300" >
+        <Image 
+          src="public\team\Visualize The Data.jpg" 
+          alt="Visualize The Data"
+          boxSize="100%"
+          objectFit="cover"
+        />
+        </Box>
 
         {/* Box 4 - Text Card */}
         <Box
