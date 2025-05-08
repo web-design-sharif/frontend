@@ -6,9 +6,7 @@ const Customize = () => {
     <Box p={8} textAlign="center">
       <Heading mb={2}>Customize</Heading>
       <Text maxW="600px" mx="auto" mb={10}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      </Text>
-
+      A customized form allows you to tailor fields, layout, and design to meet specific user or business requirements. It enhances user experience by displaying only relevant inputs and streamlining data collection. Custom forms are often used in applications, surveys, and registrations to ensure efficient and accurate submissions.      </Text>
       <Flex direction="column" gap={12} align="center">
         <Flex gap={500} justify="center" flexWrap="wrap">
           <Box maxW="200px" textAlign="center">
