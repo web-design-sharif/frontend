@@ -35,7 +35,7 @@ const Logo: React.FC<BoxProps> = (props) => {
 
   return (
     <Box {...props} onClick={() => navigate("/")}>
-      <Image src="Logo.svg"/>
+      <Image boxSize="100px" src="public/team/Logo.jpg"/>
     </Box>
   );
 };
