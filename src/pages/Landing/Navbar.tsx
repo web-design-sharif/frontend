@@ -35,7 +35,7 @@ const Logo: React.FC<BoxProps> = (props) => {
 
   return (
     <Box {...props} onClick={() => navigate("/")}>
-      <Image boxSize="100px" src="public/team/Logo.jpg"/>
+      <Image boxSize={{base: "50px", md: "75px"}} src="/Logo.jpg"/>
     </Box>
   );
 };
@@ -197,7 +197,6 @@ const NavBar: React.FC<BoxProps> = (props) => {
     <NavBarContainer {...props}>
       <Box display="flex" alignContent="center">
         <Logo
-          w={["100px", "150px", "200px", "200px"]}
           color={["white", "white", "primary.500", "primary.500"]}
           onClick={(e) => {
             e.preventDefault();

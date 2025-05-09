@@ -22,9 +22,9 @@ const Analyze = () => {
           maxW="350px"
           bg="white"
         >
-          <Link href="#" fontWeight="bold" fontSize="lg" color="colorPalette.700" _hover={{ textDecoration: "underline" }}>
+          <Heading fontWeight="bold" fontSize="lg" color="colorPalette.700">
             Visualize The Data
-          </Link>
+          </Heading>
           <Box my={2} w="300px" mx="auto" borderBottom="1px solid" borderColor="gray.300" />
           <Text fontSize="sm" color="gray.700">
             View automated charts based on respondents’ answers in real-time.
@@ -36,7 +36,7 @@ const Analyze = () => {
         {/* Box 2 - Image Placeholder */}
         <Box w="250px" h="200px" bg="gray.300" >
         <Image 
-          src="public\team\Customize And Share.jpg" 
+          src="/landing/Customize And Share.jpg" 
           alt="Visualize The Data"
           boxSize="100%"
           objectFit="cover"
@@ -46,7 +46,7 @@ const Analyze = () => {
         {/* Box 3 - Image Placeholder */}
         <Box w="250px" h="200px" bg="gray.300" >
         <Image 
-          src="public\team\Visualize The Data.jpg" 
+          src="/landing/Visualize The Data.jpg" 
           alt="Visualize The Data"
           boxSize="100%"
           objectFit="cover"
@@ -62,9 +62,9 @@ const Analyze = () => {
           maxW="350px"
           bg="white"
         >
-          <Link href="#" fontWeight="bold" fontSize="lg" color="colorPalette.700" _hover={{ textDecoration: "underline" }}>
+          <Heading fontWeight="bold" fontSize="lg" color="colorPalette.700">
             Customize And Share
-          </Link>
+          </Heading>
           <Box my={2} w="300px" mx="auto" borderBottom="1px solid" borderColor="gray.300" />
           <Text fontSize="sm" color="gray.700">
             Customize the charts by choosing a color pallet and adding descriptions and images to them.
