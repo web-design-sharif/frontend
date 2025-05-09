@@ -10,12 +10,12 @@ const Customize = () => {
 
 
   return (
-    <Box py={16} px={8} textAlign="center">
+    <Box py={16} px={8} textAlign="center" id="customize">
       <Heading as="h2" size="3xl" mb={4} color="colorPalette.700" fontWeight="bold">
         Customize
       </Heading>
       <Text maxW="800px" mx="auto" mb={12} color="gray.600">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      Easily tailor your forms to suit your needs. Whether you're gathering feedback, running surveys, or creating quizzes, our flexible tools help you build forms that feel personal and purposeful.
       </Text>
 
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={12}>
@@ -30,7 +30,7 @@ const Customize = () => {
 const ItemBox = ({title, text, imagePath, alt}: {title: string, text: string, imagePath: string, alt: string}) => {
   return (
     <Stack direction="column" align="center" height="100%">
-      <Image src={imagePath} alt={alt} mb={4} boxSize="200px" objectFit="cover"/>
+      <Image src={imagePath} alt={alt} mb={4} boxSize="200px" objectFit="contain"/>
       <Heading fontWeight="bold" color="colorPalette.700" size="xl">
         {title}
       </Heading>

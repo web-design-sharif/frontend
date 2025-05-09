@@ -22,7 +22,7 @@ const handleScroll = (id: string) => {
   }
   const element = document.getElementById(id);
   if (element) {
-    const elementPosition = element.offsetTop - 100;
+    const elementPosition = element.offsetTop - 110;
     window.scrollTo({
       top: elementPosition,
       behavior: "smooth",

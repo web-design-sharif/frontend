@@ -61,7 +61,7 @@ const About: React.FC<StackProps> = (props) => {
   `;
 
   return (
-    <Stack width="100%" textAlign="center" gap={4} backgroundColor="colorPalette.300" padding="10pt 0" {...props}>
+    <Stack width="100%" textAlign="center" gap={4} backgroundColor="colorPalette.300" padding="10pt 0" {...props} id="contact">
       <Heading size="4xl" fontWeight="bold">
         About Us
       </Heading>

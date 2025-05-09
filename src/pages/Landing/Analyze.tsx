@@ -2,7 +2,7 @@ import { Box, Grid, Text, Heading, Stack, Link, Image } from "@chakra-ui/react";
 
 const Analyze = () => {
   return (
-    <Box py={16} px={8} textAlign="center" bg="gray.50">
+    <Box py={16} px={8} textAlign="center" bg="gray.50" id="analyze">
       <Heading as="h2" size="3xl" mb={12} color="black" fontWeight="bold">
         Analyzing Data
       </Heading>
