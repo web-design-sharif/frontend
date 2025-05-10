@@ -72,11 +72,13 @@ const isStrongPassword = (pwd: string): boolean => {
               onChange={(e) => setEmail(e.target.value)}
               bg="gray.50"
             />
-            <Button ml={2} border="1px solid" borderColor="cyan.400" color="white" >
+            {/* <Button ml={2} border="1px solid" borderColor="cyan.400" color="white" >
               Send Code
-            </Button>
+            </Button> */}
           </Flex>
-          <FormErrorMessage>{emailError}</FormErrorMessage>
+          <Box color="colorPalette.500">
+            <FormErrorMessage fontSize="xx-small">{emailError}</FormErrorMessage>
+          </Box>
         </FormControl>
 
         <FormControl mb={4} isInvalid={!!passwordError}>
@@ -88,7 +90,9 @@ const isStrongPassword = (pwd: string): boolean => {
             onChange={(e) => setPassword(e.target.value)}
             bg="gray.50"
           />
-          <FormErrorMessage>{passwordError}</FormErrorMessage>
+          <Box color="colorPalette.500">
+          <FormErrorMessage fontSize="xx-small">{passwordError}</FormErrorMessage>
+          </Box>
         </FormControl>
 
         <FormControl mb={6} isInvalid={!!confirmError}>
@@ -100,7 +104,9 @@ const isStrongPassword = (pwd: string): boolean => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             bg="gray.50"
           />
-          <FormErrorMessage>{confirmError}</FormErrorMessage>
+          <Box color="colorPalette.500">
+          <FormErrorMessage fontSize="xx-small">{confirmError}</FormErrorMessage>
+          </Box>
         </FormControl>
 
         <Button
@@ -115,7 +121,7 @@ const isStrongPassword = (pwd: string): boolean => {
 
         <Text fontSize="sm" textAlign="center">
           Already have an account?{' '}
-          <Link color="cyan.500" href="#">Sign In</Link>
+          <Link color="colorPalette.500" href="/login">Sign In</Link>
         </Text>
       </Box>
     </Flex>
