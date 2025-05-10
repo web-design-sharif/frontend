@@ -9,7 +9,7 @@ const Create = () => {
       <Text maxW={{base: "85%", md: "50%"}} textAlign="center" fontSize={{base: "sm", md: "md"}}>
         Design and customize forms effortlessly with our intuitive tools. Whether you're collecting feedback, conducting surveys, or creating registrations, our platform adapts to your requirements.
       </Text>
-      <Flex justify="center" gap={{base: "5", md: "28"}}>
+      <Flex justify="center" gap={{base: "5", md: "28"}} flexDir={{base: "column", md: "row"}}>
         <ItemBox title="Manage forms" imgPath="/landing/manage.png" subtitle="You can manage your forms all in one place" />
         <ItemBox title="Lots of question types" imgPath="/landing/add.png" subtitle="Add any type of question with a single click" />
       </Flex>

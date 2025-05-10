@@ -5,12 +5,12 @@ import { SiGmail } from 'react-icons/si';
 const Footer = () => {
   return (
     <Box backgroundColor="colorPalette.800" marginTop="60px" paddingLeft="5%" paddingY={5} >
-      <Flex paddingX="5%" justify="space-between" color="white" alignItems="center">
-        <Text fontSize="sm">
+      <Flex paddingX="5%" justify="space-between" color="white" alignItems="center" gap={8}>
+        <Text fontSize={{base: "2xs", md: "sm"}}>
           Empowering your data collection — one form at a time.
         </Text>
         <Flex gap={5} alignItems="center">
-          <Text fontSize="sm">
+          <Text fontSize={{base: "2xs", md: "sm"}}>
             Follow us on
           </Text>
           
