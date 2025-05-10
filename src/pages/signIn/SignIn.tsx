@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -9,9 +9,43 @@ import {
   Link,
 } from '@chakra-ui/react';
 
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { FormControl, FormLabel , FormErrorMessage,} from "@chakra-ui/form-control";
+
 
 const SignIn = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const validateEmail = (email : string) => {
+    // Basic email regex
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleLogin = () => {
+    let isValid = true;
+
+    if (!validateEmail(email)) {
+      setEmailError('Invalid email format');
+      isValid = false;
+    } else {
+      setEmailError('');
+    }
+
+    if (!password) {
+      setPasswordError('Password cannot be empty');
+      isValid = false;
+    } else {
+      setPasswordError('');
+    }
+
+    if (isValid) {
+      // Proceed with login
+      console.log('Logging in with', { email, password });
+    }
+  };
+
   return (
     <Flex minH="100vh" align="center" justify="center" bg="white">
       <Box
@@ -26,14 +60,28 @@ const SignIn = () => {
           Log In to Forms
         </Heading>
 
-        <FormControl mb={4}>
+        <FormControl mb={4} isInvalid={!!emailError}>
           <FormLabel>Email</FormLabel>
-          <Input placeholder="Enter your email address" type="email" bg="gray.50" />
+          <Input
+            placeholder="Enter your email address"
+            type="email"
+            bg="gray.50"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          {emailError && <FormErrorMessage>{emailError}</FormErrorMessage>}
         </FormControl>
 
-        <FormControl mb={6}>
+        <FormControl mb={6} isInvalid={!!passwordError}>
           <FormLabel>Password</FormLabel>
-          <Input placeholder="Enter your password" type="password" bg="gray.50" />
+          <Input
+            placeholder="Enter your password"
+            type="password"
+            bg="gray.50"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {passwordError && <FormErrorMessage>{passwordError}</FormErrorMessage>}
         </FormControl>
 
         <Flex mb={4}>
@@ -42,6 +90,7 @@ const SignIn = () => {
             w="150px"
             boxShadow="md"
             mr={9}
+            onClick={handleLogin}
           >
             Log in
           </Button>
