@@ -4,8 +4,8 @@ import { useNavigate } from "react-router";
 
 const Title = () => {
   return (
-    <Box backgroundColor="colorPalette.800" padding="20vh 5%">
-      <Flex justify="space-between">
+    <Box backgroundColor="colorPalette.800" padding={{base: "8vh 5%", md: "20vh 5%"}}>
+      <Flex justify={{base: "center", md: "space-between"}}>
         <Stack color="white" maxWidth={{base: "90%", md: "40%"}}>
           <Heading size="4xl" fontWeight="bold">
             Forms Designer
