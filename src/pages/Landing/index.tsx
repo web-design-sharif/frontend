@@ -11,7 +11,7 @@ const Landing = () => {
   return (
     <Box>
       <Navbar position="fixed" zIndex={3} />
-      <Box paddingTop={150} />
+      <Box paddingTop={{base: 70, md: 150}} />
       <Title />
       <Create />
       <Analyze />

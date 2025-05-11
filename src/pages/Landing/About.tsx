@@ -61,7 +61,7 @@ const About: React.FC<StackProps> = (props) => {
   `;
 
   return (
-    <Stack width="100%" textAlign="center" gap={4} backgroundColor="colorPalette.300" padding="10pt 0" {...props}>
+    <Stack width="100%" textAlign="center" gap={4} backgroundColor="colorPalette.300" padding="10pt 0" {...props} id="contact">
       <Heading size="4xl" fontWeight="bold">
         About Us
       </Heading>
@@ -111,10 +111,10 @@ const TeamMemberItem: React.FC<
       {...props}
     >
       <Image src={imagePath} w={{base: "180px", md: "270px"}} h={{base: "180px", md: "270px"}} />
-      <Heading fontWeight="bold" fontSize="2xl" mt={5} h={10} >
+      <Heading fontWeight="bold" fontSize={{base: "md", md: "2xl"}} mt={5} h={10} >
         {name}
       </Heading>
-      <Heading fontWeight="bold" fontSize="2xl" h={10} >
+      <Heading fontWeight="bold" fontSize={{base: "md", md: "2xl"}} mt={-3} h={10} >
         {lastName}
       </Heading>
       

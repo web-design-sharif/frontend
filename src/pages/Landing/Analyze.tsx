@@ -2,7 +2,7 @@ import { Box, Grid, Text, Heading, Stack, Link, Image } from "@chakra-ui/react";
 
 const Analyze = () => {
   return (
-    <Box py={16} px={8} textAlign="center" bg="gray.50">
+    <Box py={16} px={8} textAlign="center" bg="gray.50" id="analyze">
       <Heading as="h2" size="3xl" mb={12} color="black" fontWeight="bold">
         Analyzing Data
       </Heading>
@@ -36,7 +36,15 @@ const Analyze = () => {
         {/* Box 2 - Image Placeholder */}
         <Box w="250px" h="200px" bg="gray.300" >
         <Image 
-          src="/landing/Customize And Share.jpg" 
+          display={{base: "none", md: "block"}}
+          src="/landing/Customize And Share.jpg"
+          alt="Visualize The Data"
+          boxSize="100%"
+          objectFit="cover"
+        />
+        <Image 
+          display={{base: "block", md: "none"}}
+          src="/landing/Visualize The Data.jpg" 
           alt="Visualize The Data"
           boxSize="100%"
           objectFit="cover"
@@ -46,7 +54,15 @@ const Analyze = () => {
         {/* Box 3 - Image Placeholder */}
         <Box w="250px" h="200px" bg="gray.300" >
         <Image 
+          display={{base: "none", md: "block"}}
           src="/landing/Visualize The Data.jpg" 
+          alt="Visualize The Data"
+          boxSize="100%"
+          objectFit="cover"
+        />
+        <Image 
+          display={{base: "block", md: "none"}}
+          src="/landing/Customize And Share.jpg"
           alt="Visualize The Data"
           boxSize="100%"
           objectFit="cover"

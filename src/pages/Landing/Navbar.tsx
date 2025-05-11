@@ -9,8 +9,9 @@ import {
   Image,
   ButtonProps,
 } from "@chakra-ui/react";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router";
+import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 
 const handleScroll = (id: string) => {
   if (id == "") {
@@ -22,7 +23,7 @@ const handleScroll = (id: string) => {
   }
   const element = document.getElementById(id);
   if (element) {
-    const elementPosition = element.offsetTop - 100;
+    const elementPosition = element.offsetTop - 110;
     window.scrollTo({
       top: elementPosition,
       behavior: "smooth",
@@ -40,14 +41,6 @@ const Logo: React.FC<BoxProps> = (props) => {
   );
 };
 
-const CloseIcon = () => {
-  return <Image src="navbar/close.png" w="40px" cursor="pointer" />;
-};
-
-const MenuIcon = () => {
-  return <Image src="navbar/menu.png" w="40px" cursor="pointer" />;
-};
-
 type MenuToggleProps = {
   toggle: () => void;
   isOpen: boolean;
@@ -56,10 +49,15 @@ type MenuToggleProps = {
 const MenuToggle = ({ toggle, isOpen }: MenuToggleProps) => {
   return (
     <Box display={{ base: "block", md: "none" }} onClick={toggle}>
-      {isOpen ? <CloseIcon /> : <MenuIcon />}
+      {isOpen ? (
+        <RxCross2 size="32px" cursor="pointer" />
+      ) : (
+        <RxHamburgerMenu size="32px" cursor="pointer" />
+      )}
     </Box>
   );
 };
+
 
 const MenuItem = ({
   children,
@@ -170,7 +168,7 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
   );
 };
 
-const NavBarContainer = ({ children, ...props }: { children: ReactNode }) => {
+const NavBarContainer = ({ children, isScrolled = false, ...props }: { children: ReactNode; isScrolled?: boolean; }) => {
   return (
     <Flex
       as="nav"
@@ -182,6 +180,21 @@ const NavBarContainer = ({ children, ...props }: { children: ReactNode }) => {
       p={8}
       backgroundColor="white"
       padding="1.5% 10% 0.75% 10%"
+      bg={
+        isScrolled
+          ? "rgba(230, 230, 230, 0.8)" // translucent white
+          : "white"
+      }
+      // color={
+      //   isScrolled
+      //     ? "primary.700"
+      //     : ["white", "white", "primary.700", "primary.700"]
+      // }
+      // boxShadow={isScrolled ? "0 4px 12px rgba(255, 255, 255, 0.8)" : "none"}
+      backdropFilter={isScrolled ? "saturate(200%) blur(20px)" : "none"}
+      borderBottom="1.5px solid"
+      borderColor={isScrolled ? "rgba(25, 224, 224, 0.2)" : "transparent"}
+      transition="all 0.3s ease, border-color 0.15s ease"
       {...props}
     >
       {children}
@@ -193,8 +206,35 @@ const NavBar: React.FC<BoxProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
+  const [isScrolled, setIsScrolled] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isOpen &&
+        navRef.current &&
+        !navRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+
   return ( 
-    <NavBarContainer {...props}>
+    <NavBarContainer isScrolled={isScrolled} {...props}>
       <Box display="flex" alignContent="center">
         <Logo
           color={["white", "white", "primary.500", "primary.500"]}
