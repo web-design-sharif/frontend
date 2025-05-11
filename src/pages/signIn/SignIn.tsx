@@ -8,41 +8,23 @@ import {
   Text,
   Link,
 } from '@chakra-ui/react';
-
-import { FormControl, FormLabel , FormErrorMessage,} from "@chakra-ui/form-control";
-
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+} from '@chakra-ui/form-control';
+import { useLogin } from '../../hooks/useLogin';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const { login, errors } = useLogin();
 
-  const validateEmail = (email : string) => {
-    // Basic email regex
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
-  const handleLogin = () => {
-    let isValid = true;
-
-    if (!validateEmail(email)) {
-      setEmailError('Invalid email format');
-      isValid = false;
-    } else {
-      setEmailError('');
-    }
-
-    if (!password) {
-      setPasswordError('Password cannot be empty');
-      isValid = false;
-    } else {
-      setPasswordError('');
-    }
-
-    if (isValid) {
-      // Proceed with login
-      console.log('Logging in with', { email, password });
+  const handleLogin = async () => {
+    const success = await login(email, password);
+    if (success) {
+      alert('Login successful (mock)');
+      // Redirect or store user info in localStorage as needed
     }
   };
 
@@ -60,7 +42,7 @@ const SignIn = () => {
           Log In to Forms
         </Heading>
 
-        <FormControl mb={4} isInvalid={!!emailError}>
+        <FormControl mb={4} isInvalid={!!errors.email}>
           <FormLabel>Email</FormLabel>
           <Input
             placeholder="Enter your email address"
@@ -69,12 +51,10 @@ const SignIn = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Box color="colorPalette.500">
-          {emailError && <FormErrorMessage fontSize="xx-small">{emailError}</FormErrorMessage>}
-          </Box>
+          <FormErrorMessage fontSize="xx-small">{errors.email}</FormErrorMessage>
         </FormControl>
 
-        <FormControl mb={6} isInvalid={!!passwordError}>
+        <FormControl mb={6} isInvalid={!!errors.password}>
           <FormLabel>Password</FormLabel>
           <Input
             placeholder="Enter your password"
@@ -83,9 +63,7 @@ const SignIn = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Box color="colorPalette.500">
-          {passwordError && <FormErrorMessage fontSize="xx-small">{passwordError}</FormErrorMessage>}
-          </Box>
+          <FormErrorMessage fontSize="xx-small">{errors.password}</FormErrorMessage>
         </FormControl>
 
         <Flex mb={4}>
