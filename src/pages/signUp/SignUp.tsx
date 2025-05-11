@@ -26,7 +26,7 @@ const SignUp = () => {
   const handleSubmit = async () => {
     const success = await signUp(email, password, confirmPassword);
     if (success) {
-      navigate('/froms');
+      navigate('/forms');
     }
     else {
       alert('error')

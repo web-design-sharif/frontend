@@ -12,6 +12,7 @@ import {
 import { useState, ReactNode, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
+import { useAuth } from "../../hooks/useAuth";
 
 const handleScroll = (id: string) => {
   if (id == "") {
@@ -88,6 +89,7 @@ const MenuButton = ({
   ...props
 }: { children: ReactNode; to?: string } & ButtonProps) => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   return (
     <Box>
@@ -105,7 +107,7 @@ const MenuButton = ({
           fontWeight="bold"
           borderWidth="2px"
           backgroundColor="colorPalette.400"
-          onClick={() => navigate(to)}
+          onClick={to == '/logout' ? logout : () => navigate(to)}
           {...props}
         >
           {children}
@@ -116,6 +118,7 @@ const MenuButton = ({
 };
 
 const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
+  const { isLoggedIn } = useAuth();
 
   return (
     <Box
@@ -153,16 +156,16 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
         gap={{ base: "2", md: "6" }}
       >
         <MenuButton
-          to="/login"
+          to={isLoggedIn ? "/forms" : "/login"}
           variant="outline"
           borderColor="colorPalette.400"
           borderWidth="medium"
           color="colorPalette.400"
           backgroundColor="white"
         >
-          Sign In
+          {isLoggedIn ? "Dashboard" : "Sign In"}
         </MenuButton>
-        <MenuButton to="/signup">Sign Up</MenuButton>
+        <MenuButton to={isLoggedIn ? "/logout" : "/signup"}>{isLoggedIn ? "Logout" : "Sign Up"}</MenuButton>
       </Stack>
     </Box>
   );
