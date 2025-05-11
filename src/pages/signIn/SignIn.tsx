@@ -14,16 +14,18 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/form-control';
 import { useLogin } from '../../hooks/useLogin';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login, errors } = useLogin();
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     const success = await login(email, password);
     if (success) {
-      alert('Login successful (mock)');
+      navigate('/forms');
       // Redirect or store user info in localStorage as needed
     }
   };

@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { getUserByEmail } from '../api/users';
+import { useAuth } from './useAuth';
 
 export const useLogin = () => {
   const [errors, setErrors] = useState({ email: '', password: '' });
+  const { login: setAuthUser } = useAuth();
 
-  const validateEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+  const validateEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const login = async (email: string, password: string): Promise<boolean> => {
     const newErrors = { email: '', password: '' };
@@ -41,6 +42,7 @@ export const useLogin = () => {
         return false;
       }
 
+      setAuthUser({ id: user.id, email: user.email });
       return true;
     } catch (error) {
       console.error('Login error:', error);

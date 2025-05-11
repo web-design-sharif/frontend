@@ -14,20 +14,19 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/form-control';
 import { useSignUp } from '../../hooks/useSignUp';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const { signUp, errors } = useSignUp();
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     const success = await signUp(email, password, confirmPassword);
     if (success) {
-      alert('Signed up successfully (mock)');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
+      navigate('/froms');
     }
     else {
       alert('error')
