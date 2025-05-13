@@ -2,7 +2,7 @@ services:
   frontend:
     restart: unless-stopped
     image: ${IMAGE}:${TAG}
-    container_name: web-front
+    container_name: web-front-app
     environment:
       baseUrl: ${BASE_URL}
     ports:
