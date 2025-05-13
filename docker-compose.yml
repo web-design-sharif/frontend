@@ -1,14 +1,9 @@
-version: "3.8"
 services:
   frontend:
-    build: .
-    container_name: web-front-app
-    ports:
-      - "${SERVICE_PORT}:${NGINX_PORT}"
-    volumes:
-      - ./:/app    # Optional: For development (live-reload)
-      - /app/node_modules
-    environment:
-      NODE_ENV: "development"
-      baseUrl: ${BASE_URL}
     restart: unless-stopped
+    image: ${IMAGE}:${TAG}
+    container_name: web-front
+    environment:
+      baseUrl: ${BASE_URL}
+    ports:
+      - "${SERVICE_PORT}:${SERVICE_PORT}"
