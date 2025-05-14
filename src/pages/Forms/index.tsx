@@ -3,7 +3,7 @@ import {
   Box, Flex, Heading, Button, Text, Table, Grid, VStack, Icon, Spinner,
 } from '@chakra-ui/react';
 import { TbLayoutList, TbLayoutGrid } from 'react-icons/tb';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useUserForms } from '../../hooks/useUserForms';
 
@@ -11,6 +11,8 @@ export default function FormManagementPage() {
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
   const [query, setQuery] = useState('');
   const { forms, loading, error } = useUserForms();
+
+  const navigate = useNavigate();
 
   const filtered = forms.filter(f =>
     f.name.toLowerCase().includes(query.trim().toLowerCase())
@@ -31,10 +33,11 @@ export default function FormManagementPage() {
       </Flex>
     );
   }
+  
 
   return (
     <Flex h="100vh">
-      <Box w="64" bg="blue.900" color="white" p="6" display="flex" flexDir="column">
+      <Box w="64" bg="colorPalette.900" color="white" p="6" display="flex" flexDir="column">
         <Heading size="md" mb="8">Form Builder</Heading>
         <VStack align="start" gap="4" flex="1">
           <Text fontWeight="medium">My Forms</Text>
@@ -44,8 +47,8 @@ export default function FormManagementPage() {
         </VStack>
         <Box mt="auto">
           {/* <Text mb="2">My Profile</Text> */}
-          <Button size="sm" opacity="0.8" _hover={{ opacity: 1 }}>
-            Logout
+          <Button size="sm" opacity="0.8" _hover={{ opacity: 1 }} onClick={() => navigate('/')}>
+            Homepage
           </Button>
         </Box>
       </Box>
@@ -54,7 +57,7 @@ export default function FormManagementPage() {
       <Box flex="1" bg="gray.100" p="8" overflowY="auto">
         {/* Header */}
         <Flex justify="space-between" align="center" mb="6">
-          <Heading size="lg">Good Morning, Subash</Heading>
+          <Heading size="lg">Dashboard</Heading>
           <Button 
             // leftIcon={<FaPlus />} 
             colorPalette="teal"
