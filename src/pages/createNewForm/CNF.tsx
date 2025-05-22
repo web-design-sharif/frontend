@@ -15,6 +15,7 @@ import {
   Textarea,
   Stack,
 } from '@chakra-ui/react';
+import { useAuth } from "../../hooks/useAuth";
 
 type FormItem = {
   title: string;
@@ -24,11 +25,16 @@ type FormItem = {
 };
 
 const CNF = () => {
-  const [labelToggle, setLabelToggle] = useState<boolean>(true);
   const [selectedFont, setSelectedFont] = useState<string>('Roboto');
   const [backgroundColor, setBackGroundColor] = useState<string>('white');
   const [title, setTitle] = useState<string>('Untitled Form');
   const [form, setForm] = useState<FormItem[]>([]);
+  const [completeForm, setCompleteForm] = useState({});
+  const { user } = useAuth();
+
+  const handleCompleteForm = () => {
+    setCompleteForm({"title": title, "bgColor": backgroundColor, "font": selectedFont, "questions": form, "owner": user ? user.id : '-'});
+  }
 
   const handleTitleChange = (index: number, newTitle: string) => {
     setForm((prevForm) =>
@@ -122,7 +128,6 @@ const CNF = () => {
             onClick={() => {
               if (texts.length < 5) 
                 addText('Option ' + (texts.length + 1));
-              handleRadioChange();
             }}
             size="sm"
             padding={0}
@@ -135,7 +140,6 @@ const CNF = () => {
             onClick={() => {
               if (texts.length > 2) 
                 RemoveText();
-              handleRadioChange();
             }}
             size="sm"
             padding={0}
@@ -274,7 +278,7 @@ const CNF = () => {
           </Box>
         </Flex>
 
-        <Button mt="32px" colorScheme="colorPalette" onClick={() => console.log(form)}>
+        <Button mt="32px" colorScheme="colorPalette" onClick={() => {handleCompleteForm();console.log(completeForm);}}>
           Publish Form
         </Button>
       </Box>
