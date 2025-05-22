@@ -60,6 +60,7 @@ export default function FormManagementPage() {
           <Heading size="lg">Dashboard</Heading>
           <Button 
             // leftIcon={<FaPlus />} 
+            onClick={() => navigate('/create')}
             colorPalette="teal"
           >
             Create New Form
@@ -108,8 +109,8 @@ export default function FormManagementPage() {
                     <Table.Cell color="gray.600">{form.updated}</Table.Cell>
                     <Table.Cell>{form.responses}</Table.Cell>
                     <Table.Cell>
-                      <Link to={`/forms/${form.id}`}>
-                        <Text color="teal.600" _hover={{ textDecor: 'underline' }}>
+                      <Link to={`/fill`}>
+                        <Text color="colorPalette.600" _hover={{ textDecor: 'underline' }}>
                           View →
                         </Text>
                       </Link>

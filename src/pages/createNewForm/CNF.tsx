@@ -18,7 +18,7 @@ import {
 import { useAuth } from "../../hooks/useAuth";
 
 type FormItem = {
-  title: string;
+  name: string;
   type: string;
   initialValue?: string;
   radioValues: string[]
@@ -41,7 +41,7 @@ const CNF = () => {
   const handleTitleChange = (index: number, newTitle: string) => {
     setForm((prevForm) =>
       prevForm.map((item, i) =>
-        i === index ? { ...item, title: newTitle } : item
+        i === index ? { ...item, name: newTitle } : item
       )
     );
   };
@@ -57,7 +57,13 @@ const CNF = () => {
   const addItem = (type: string) => {
     const n = [];
     form.map((item) => n.push(item));
-    n.push({ title: "Untitled Question", type: type, initialValue: "", radioValues: [] });
+    n.push({ name: "Untitled Question", type: type, initialValue: "", radioValues: [] });
+    setForm(n);
+  };
+
+  const removeItem = (i: number) => {
+    const n: FormItem[] = [];
+    form.map((item, index) => {if (index != i) n.push(item)});
     setForm(n);
   };
 
@@ -111,6 +117,32 @@ const CNF = () => {
     const [texts, setTexts] = useState<string[]>(form[index].radioValues.length > 0 ? form[index].radioValues : ['Option 1', 'Option 2']);
     return (
       <Flex justify="space-between">
+      <Stack gap={0}>
+        <Button 
+          onClick={() => {
+            if (texts.length < 5) 
+              addText('Option ' + (texts.length + 1));
+          }}
+          size="sm"
+          padding={0}
+          width={5}
+          height={5}
+          backgroundColor={backgroundColor}
+          color="colorPalette.800"
+        >+</Button>
+        <Button 
+          onClick={() => {
+            if (texts.length > 2) 
+              RemoveText();
+          }}
+          size="sm"
+          padding={0}
+          width={5}
+          height={5}
+          backgroundColor={backgroundColor}
+          color="colorPalette.800"
+        >-</Button>
+      </Stack>
         <Stack>
           {texts.map((item, index) => (
             <Editable.Root 
@@ -125,35 +157,9 @@ const CNF = () => {
             </Editable.Root>
           ))}
         </Stack>
-        <Stack gap={0}>
-          <Button 
-            onClick={() => {
-              if (texts.length < 5) 
-                addText('Option ' + (texts.length + 1));
-            }}
-            size="sm"
-            padding={0}
-            width={5}
-            height={5}
-            backgroundColor={backgroundColor}
-            color="colorPalette.900"
-          >+</Button>
-          <Button 
-            onClick={() => {
-              if (texts.length > 2) 
-                RemoveText();
-            }}
-            size="sm"
-            padding={0}
-            width={5}
-            height={5}
-            backgroundColor={backgroundColor}
-            color="colorPalette.900"
-          >-</Button>
-        </Stack>
       </Flex>
     );
-  }
+  };
 
   return (
     <Flex minH="100vh">
@@ -192,8 +198,9 @@ const CNF = () => {
 
             <VStack align="stretch">
               {form.map((item, index) => (
-                <Box key={index}>
-                  <EditableText initialText={item.title} font={selectedFont} index={index} />
+                <Flex justify="space-between" key={index}>
+                <Box>
+                  <EditableText initialText={item.name} font={selectedFont} index={index} />
                   {item.type == "normal-text" || item.type == "password" || item.type == "email" ? 
                     <Input fontFamily={selectedFont} onChange={(e) => handleInitialValueChange(index, e.target.value)} /> : 
                     item.type == "paragraph" ? <Textarea fontFamily={selectedFont} onChange={(e) => handleInitialValueChange(index, e.target.value)} /> : 
@@ -201,12 +208,19 @@ const CNF = () => {
                     item.type == "time" || item.type == "date" ? <Input disabled width={150} placeholder={item.type} /> : <></>
                   }
                 </Box>
+                <Button 
+                  onClick={() => {
+                    removeItem(index);
+                  }}
+                  size="md"
+                  padding={0}
+                  width={5}
+                  height={5}
+                  backgroundColor={backgroundColor}
+                  color="red"
+                >x</Button>
+                </Flex>
               ))}
-              {/* <GroupedItem item={form[0]} index={0} />
-              <Box mt="16px">
-                <Text mb="4px" fontFamily={selectedFont}>Last Name</Text>
-                <Input placeholder="" fontFamily={selectedFont} />
-              </Box> */}
               <Menu.Root positioning={{ placement: "bottom" }} onSelect={(details) => addItem(details.value)}>
                 <Menu.Trigger asChild>
                   <Button variant="outline" size="sm">
@@ -264,7 +278,7 @@ const CNF = () => {
             <Box mb="24px">
               <Text mb="8px">Font Family</Text>
               <HStack gap="8px" wrap="wrap">
-                {['Roboto', 'Ancizar Serif', 'Verdana'].map((font) => (
+                {['Roboto', 'Ancizar Serif', 'Space Mono'].map((font) => (
                   <Button
                     key={font}
                     size="sm"
