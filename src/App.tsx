@@ -4,6 +4,7 @@ import SignUp from './pages/signUp/SignUp';
 import SignIn from './pages/signIn/SignIn';
 import { useAuth } from './hooks/useAuth';
 import MyForms from './pages/Forms';
+import CNF from './pages/createNewForm/CNF';
 
 function App() {
   const { isLoggedIn } = useAuth();
@@ -15,6 +16,7 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/login' element={<SignIn />} />
           <Route path="/forms" element={isLoggedIn ? <MyForms /> : <Navigate to="/login" />} />
+          <Route path="/create" element={<CNF />} />
       </Routes>
     </BrowserRouter>
   );

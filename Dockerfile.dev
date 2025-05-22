@@ -2,7 +2,7 @@ FROM node:18-alpine
 
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm install --include=dev  # This installs devDependencies including Vite
 COPY . .
 
-CMD ["npm", "start"]
+CMD npm run dev

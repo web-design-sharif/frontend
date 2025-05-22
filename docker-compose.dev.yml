@@ -1,11 +1,10 @@
-version: "3.8"
 services:
   frontend:
     build:
       context: .
       dockerfile: Dockerfile.dev
     ports:
-      - "3000:3000"
+      - "5173:5173"  # Vite's default port
     volumes:
       - ./:/app
       - /app/node_modules
@@ -13,3 +12,4 @@ services:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
     restart: unless-stopped
+    command: npm run dev -- --host 0.0.0.0
