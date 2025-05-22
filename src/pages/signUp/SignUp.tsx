@@ -15,21 +15,27 @@ import {
 } from '@chakra-ui/form-control';
 import { useSignUp } from '../../hooks/useSignUp';
 import { useNavigate } from 'react-router-dom';
+import { useLogin } from '../../hooks/useLogin';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const { signUp, errors } = useSignUp();
+  const { login } = useLogin();
   const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    const success = await login(email, password);
+    if (success) {
+      navigate('/forms');
+    }
+  };
 
   const handleSubmit = async () => {
     const success = await signUp(email, password, confirmPassword);
     if (success) {
-      navigate('/forms');
-    }
-    else {
-      alert('error')
+      handleLogin();
     }
   };
 
@@ -48,7 +54,7 @@ const SignUp = () => {
             onChange={(e) => setEmail(e.target.value)}
             bg="gray.50"
           />
-          <FormErrorMessage fontSize="xx-small">
+          <FormErrorMessage fontSize="xx-small" textColor="cyan">
             {errors.email}
           </FormErrorMessage>
         </FormControl>
@@ -62,7 +68,7 @@ const SignUp = () => {
             onChange={(e) => setPassword(e.target.value)}
             bg="gray.50"
           />
-          <FormErrorMessage fontSize="xx-small">
+          <FormErrorMessage fontSize="xx-small" textColor="cyan">
             {errors.password}
           </FormErrorMessage>
         </FormControl>
@@ -76,7 +82,7 @@ const SignUp = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             bg="gray.50"
           />
-          <FormErrorMessage fontSize="xx-small">
+          <FormErrorMessage fontSize="xx-small" textColor="cyan">
             {errors.confirm}
           </FormErrorMessage>
         </FormControl>

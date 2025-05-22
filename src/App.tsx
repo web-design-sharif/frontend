@@ -17,8 +17,8 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/login' element={<SignIn />} />
           <Route path="/forms" element={isLoggedIn ? <MyForms /> : <Navigate to="/login" />} />
-          <Route path="/create" element={<CNF />} />
-          <Route path="/fill" element={<FormFiller />} />
+          <Route path="/create" element={isLoggedIn ? <CNF /> : <Navigate to="/login" />} />
+          <Route path="/fill" element={isLoggedIn ? <FormFiller /> : <Navigate to="/login" />} />
       </Routes>
     </BrowserRouter>
   );

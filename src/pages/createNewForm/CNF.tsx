@@ -16,6 +16,7 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from 'react-router';
 
 type FormItem = {
   name: string;
@@ -161,21 +162,23 @@ const CNF = () => {
     );
   };
 
+  const navigate = useNavigate();
+
   return (
     <Flex minH="100vh">
       {/* Sidebar */}
-      <Box w="20%" bg="colorPalette.900" color="white" p="20px">
-        <Text fontSize="2xl" fontWeight="bold" mb="40px">
-          Form Builder
-        </Text>
-        <Box mb="8px" background={'colorPallete.500'}>My Forms</Box>
-        <Box mb="8px" background={'colorPallete.500'}>My Answered Forms</Box>
-        <Box mb="8px">Responces</Box>
-        <Box mb="8px">Analytics</Box>
-        <Box position="absolute" bottom="20px" left="20px" fontSize="sm">
-         <Link href="#">
-                logout
-          </Link>
+      <Box w="64" bg="colorPalette.900" color="white" p="6" display="flex" flexDir="column">
+        <Heading size="md" mb="8">Form Builder</Heading>
+        <VStack align="start" gap="4" flex="1">
+          <Text fontWeight="medium">My Forms</Text>
+          <Text opacity="0.8" _hover={{ opacity: 1, cursor: 'pointer' }}>My Answered Forms</Text>
+          <Text opacity="0.8" _hover={{ opacity: 1, cursor: 'pointer' }}>Responses</Text>
+          <Text opacity="0.8" _hover={{ opacity: 1, cursor: 'pointer' }}>Analytics</Text>
+        </VStack>
+        <Box mt="auto">
+          <Button size="sm" opacity="0.8" _hover={{ opacity: 1 }} onClick={() => navigate('/')}>
+            Homepage
+          </Button>
         </Box>
       </Box>
 
