@@ -53,7 +53,7 @@ const SignIn = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <FormErrorMessage fontSize="xx-small">{errors.email}</FormErrorMessage>
+          <FormErrorMessage fontSize="xx-small" textColor="cyan">{errors.email}</FormErrorMessage>
         </FormControl>
 
         <FormControl mb={6} isInvalid={!!errors.password}>
@@ -65,7 +65,7 @@ const SignIn = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <FormErrorMessage fontSize="xx-small">{errors.password}</FormErrorMessage>
+          <FormErrorMessage fontSize="xx-small" textColor="cyan">{errors.password}</FormErrorMessage>
         </FormControl>
 
         <Flex mb={4}>

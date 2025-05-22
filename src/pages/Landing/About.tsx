@@ -17,37 +17,37 @@ const cardWidth = 210;
 const About: React.FC<StackProps> = (props) => {
   const items = [
     {
-      imagePath: "team/default.png",
+      imagePath: "team/aghaei.jpg",
       name: "Hossein",
       lastName: "Aghaei",
     },
     {
-      imagePath: "team/default.png",
+      imagePath: "team/bayat.jpg",
       name: "Mohammad Hasan",
       lastName: "Bayatiani",
     },
     {
-      imagePath: "team/default.png",
+      imagePath: "team/abedin.jpg",
       name: "Hoora",
       lastName: "Abedin",
     },
     {
-      imagePath: "team/default.png",
+      imagePath: "team/salami.jpg",
       name: "Amirhossein",
       lastName: "Salami",
     },
     {
-      imagePath: "team/default.png",
+      imagePath: "team/mohammadpour.jpg",
       name: "Amirhossein",
       lastName: "Mohammadpour",
     },
     {
-      imagePath: "team/default.png",
+      imagePath: "team/heydari.jpg",
       name: "Omid",
       lastName: "Heidari",
     },
     {
-      imagePath: "team/default.png",
+      imagePath: "team/zarezade.jpg",
       name: "Aref",
       lastName: "Zarezadeh",
     },
