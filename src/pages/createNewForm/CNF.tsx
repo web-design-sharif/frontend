@@ -33,7 +33,9 @@ const CNF = () => {
   const { user } = useAuth();
 
   const handleCompleteForm = () => {
-    setCompleteForm({"name": title, "bgColor": backgroundColor, "font": selectedFont, "questions": form, "owner_id": user ? user.id : '-', "updated": "Now", "responses": 1});
+    setCompleteForm({"name": title, "bgColor": backgroundColor, "font": selectedFont, "questions": form, "owner_id": user ? user.id : '-', "updated": "Now", "responses": 1
+
+    });
   }
 
   const handleTitleChange = (index: number, newTitle: string) => {
