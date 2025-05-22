@@ -12,9 +12,9 @@ const config = defineConfig({
   theme: {
     tokens: {
       fonts: {
-        body: { value: "'Montserrat', sens-serif" },
-        heading: { value: "'Montserrat', sens-serif" },
-        Text: { value: "'Montserrat', sens-serif" },
+        body: { value: "Montserrat, sens-serif" },
+        heading: { value: "Montserrat, sens-serif" },
+        Text: { value: "Montserrat, sens-serif" },
       },
     },
   },

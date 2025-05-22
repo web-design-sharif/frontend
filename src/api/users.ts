@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3001/users';
+const API_URL = 'http://localhost:3000/users';
 
 export const getUserByEmail = async (email: string) => {
   const res = await fetch(`${API_URL}?email=${email}`);
