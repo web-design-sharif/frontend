@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Form } from '../types';
-import { getForms } from '../api/forms';
+import { getMyForms } from '../api/forms';
 import { useAuth } from './useAuth';
 
 export const useUserForms = () => {
@@ -14,8 +14,8 @@ export const useUserForms = () => {
       if (!user) return;
 
       try {
-        const allForms = await getForms();
-        const myForms = allForms.filter(form => form.owner_id === user.id.toString());
+        const allForms = await getMyForms(user.id);
+        const myForms = allForms.filter((form: { owner_id: number; }) => form.owner_id === user.id);
         setForms(myForms);
       } catch (err) {
         setError('Failed to load forms');

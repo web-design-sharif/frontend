@@ -17,8 +17,8 @@ export default function FormManagementPage() {
 
   const navigate = useNavigate();
 
-  const filtered = (isAnswered ? allForms : forms).filter((f: { name: string; }) =>
-    f.name.toLowerCase().includes(query.trim().toLowerCase())
+  const filtered = (isAnswered ? allForms : forms).filter((f: { title: string; }) =>
+    f.title.toLowerCase().includes(query.trim().toLowerCase())
   );
 
   if (isAnswered ? loadingAll : loading) {
@@ -109,7 +109,7 @@ export default function FormManagementPage() {
               <Table.Body>
                 {filtered.map(form => (
                   <Table.Row key={form.id} _hover={{ bg: 'gray.50' }}>
-                    <Table.Cell>{form.name}</Table.Cell>
+                    <Table.Cell>{form.title}</Table.Cell>
                     <Table.Cell color="gray.600">{form.updated}</Table.Cell>
                     <Table.Cell>{form.responses}</Table.Cell>
                     <Table.Cell>
@@ -128,7 +128,7 @@ export default function FormManagementPage() {
           <Grid templateColumns="repeat(3, 1fr)" gap="4">
             {filtered.map(form => (
               <Box key={form.id} bg="white" p="4" rounded="md" shadow="sm" _hover={{ shadow: 'md' }}>
-                <Text fontWeight="medium" mb="2">{form.name}</Text>
+                <Text fontWeight="medium" mb="2">{form.title}</Text>
                 <Text fontSize="sm" color="gray.500" mb="1">Updated {form.updated}</Text>
                 <Text fontSize="sm" fontWeight="semibold" mb="4">
                   {form.responses} responses

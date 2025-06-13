@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { getUserByEmail, createUser } from '../api/users';
+import { createUser } from '../api/users';
+
+interface ApiError extends Error {
+  response?: {
+    status: number;
+    data?: {
+      message?: string;
+    };
+  };
+}
 
 export const useSignUp = () => {
   const [errors, setErrors] = useState({
@@ -30,8 +39,7 @@ export const useSignUp = () => {
     }
     
     if (!isStrongPassword(password)) {
-      newErrors.password =
-      'Password must be at least 8 characters long and include both letters and numbers.';
+      newErrors.password = 'Password must be at least 8 characters long and include both letters and numbers.';
       valid = false;
     }
     
@@ -45,14 +53,22 @@ export const useSignUp = () => {
       return false;
     }
     
-    const existing = await getUserByEmail(email);
-    if (existing.length > 0) {
-      setErrors({ ...newErrors, email: 'Email already registered.' });
+    try {
+      await createUser({ email, password });
+      return true;
+    } catch (error: unknown) {
+      const apiError = error as ApiError;
+      
+      if (apiError.response?.status === 409) {
+        setErrors({ ...newErrors, email: 'Email already registered.' });
+      } else {
+        setErrors({ 
+          ...newErrors, 
+          email: apiError.response?.data?.message || 'Registration failed. Please try again.' 
+        });
+      }
       return false;
     }
-    
-    await createUser({ email, password });
-    return true;
   };
   
   return { signUp, errors };

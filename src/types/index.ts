@@ -1,8 +1,8 @@
 export type Form = {
     id: number;
-    name: string;
+    title: string;
     updated: string;
     responses: number;
-    owner_id: string;
+    owner_id: number;
+    is_published: boolean;
   };
-  

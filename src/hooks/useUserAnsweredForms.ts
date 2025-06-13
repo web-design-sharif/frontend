@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Form } from '../types';
-import { getForms } from '../api/forms';
+import { getPendingForms } from '../api/forms';
 import { useAuth } from './useAuth';
 
 export const useUserAnsweredForms = () => {
@@ -14,9 +14,8 @@ export const useUserAnsweredForms = () => {
       if (!user) return;
 
       try {
-        const allForms = await getForms();
-        const myForms = allForms;
-        setForms(myForms);
+        const allForms = await getPendingForms(user.id);
+        setForms(allForms);
       } catch (err) {
         setError('Failed to load forms');
       } finally {
