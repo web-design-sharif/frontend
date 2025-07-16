@@ -14,11 +14,12 @@ export const useUserForms = () => {
       if (!user) return;
 
       try {
-        const allForms = await getMyForms(user.id);
-        const myForms = allForms.filter((form: { owner_id: number; }) => form.owner_id === user.id);
+        const myForms = await getMyForms(user.id);
+        // myForms.forEach(form => {form.updatedAt = form.updatedAt + 'Z'});
         setForms(myForms);
       } catch (err) {
         setError('Failed to load forms');
+        console.log(err)
       } finally {
         setLoading(false);
       }

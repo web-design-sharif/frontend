@@ -15,6 +15,7 @@ export const useUserAnsweredForms = () => {
 
       try {
         const allForms = await getPendingForms(user.id);
+        // allForms.forEach(form => {form.updatedAt = form.updatedAt + 'Z'});
         setForms(allForms);
       } catch (err) {
         setError('Failed to load forms');

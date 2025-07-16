@@ -10,16 +10,19 @@ type AuthContextType = {
   user: User | null;
   login: (user: User) => void;
   logout: () => void;
+  isLoading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = getItem('user');
     if (storedUser) setUser(storedUser);
+    setIsLoading(false); // done loading, regardless
   }, []);
 
   const login = (user: User) => {
@@ -33,11 +36,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);

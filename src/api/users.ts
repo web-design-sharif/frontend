@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/users';
+const API_URL = 'http://localhost:8080';
 
 export const getUserByEmail = async (email: string) => {
   const response = await axios.get(`${API_URL}`, {
@@ -10,6 +10,11 @@ export const getUserByEmail = async (email: string) => {
 };
 
 export const createUser = async (user: { email: string; password: string }) => {
-  const response = await axios.post(API_URL, user);
+  const response = await axios.post(`${API_URL}/sign-up`, user);
+  return response.data;
+};
+
+export const loginUser = async (user: { email: string; password: string }) => {
+  const response = await axios.post(`${API_URL}/sign-in`, user);
   return response.data;
 };

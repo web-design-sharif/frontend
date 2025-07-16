@@ -1,25 +1,47 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Box, Flex, Heading, Button, Text, Table, Grid, VStack, Icon, Spinner,
+  Box, Flex, Heading, Button, Text, Table, Grid, VStack, Icon, Spinner, Link
 } from '@chakra-ui/react';
 import { TbLayoutList, TbLayoutGrid } from 'react-icons/tb';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { formatDistanceToNow } from 'date-fns';
+import { FiTrash2 } from 'react-icons/fi';
 
 import { useUserForms } from '../../hooks/useUserForms';
 import { useUserAnsweredForms } from '../../hooks/useUserAnsweredForms';
+import { Form } from '../../types';
+import { usePublish } from '../../hooks/usePublish';
+import { useDelete } from '../../hooks/useDelete';
+import { useForm } from '../../hooks/useForm';
 
 export default function FormManagementPage() {
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
   const [isAnswered, setAnswered] = useState<boolean>(false);
   const [query, setQuery] = useState('');
-  const { forms, loading, error } = useUserForms();
+  let { forms, loading, error } = useUserForms();
   const { allForms, loadingAll, errorAll } = useUserAnsweredForms();
+  const { error: publishError, publishForm } = usePublish();
+  const { error: deleteError, deleteForm } = useDelete();
+  const [publishedForms, setPublishedForms] = useState<Set<number>>(new Set());
+  const { select } = useForm();
+  // const [f, setf] = useState<>();
 
   const navigate = useNavigate();
+  console.log('all forms', allForms);
 
-  const filtered = (isAnswered ? allForms : forms).filter((f: { title: string; }) =>
-    f.title.toLowerCase().includes(query.trim().toLowerCase())
-  );
+  let filtered = (isAnswered ? allForms : forms)
+  // .filter((f: { title: string; }) =>
+  //   f.title.toLowerCase().includes(query.trim().toLowerCase())
+  // );
+
+  useEffect(() => {
+    const s = new Set<number>();
+    forms.forEach((form) => {
+      if (form.published)
+        s.add(form.id);
+    })
+    setPublishedForms(s);
+  }, [forms]);
 
   if (isAnswered ? loadingAll : loading) {
     return (
@@ -35,6 +57,55 @@ export default function FormManagementPage() {
         <Text color="red.500">{error}</Text>
       </Flex>
     );
+  }
+
+  const selectForm = (form: Form) => {
+    if (isAnswered) {
+      select(form);
+      navigate('/fill');
+    }
+    else {
+      publishForm(form.id);
+      if (publishError)
+        alert(publishError);
+
+      if (publishedForms.has(form.id)) {
+        setPublishedForms(prev => {
+          const next = new Set(prev);
+          next.delete(form.id);
+          return next;
+        });
+      } else {
+        setPublishedForms(prev => new Set(prev).add(form.id));
+      }
+
+      for (let i = 0; i < forms.length; i++) {
+        if (forms[i].id == form.id)
+          forms[i].updatedAt = new Date().toString();
+      }
+    }
+  };
+
+  const deleteFormNow = (form: Form) => {
+    deleteForm(form.id);
+    if (deleteError)
+      alert(deleteError);
+    
+    const newForms: Form[] = [];
+    for (let i = 0; i < forms.length; i++) {
+      if (forms[i].id != form.id)
+        newForms.push(forms[i]);
+    }
+    forms = newForms;
+    filtered = (isAnswered ? allForms : forms).filter((f: { title: string; }) =>
+      f.title.toLowerCase().includes(query.trim().toLowerCase())
+    );
+    window.location.reload();
+  }
+
+  const analyzeForm = (form: Form) => {
+    select(form);
+    navigate('/analyze');
   }
 
   
@@ -100,24 +171,31 @@ export default function FormManagementPage() {
             <Table.Root >
               <Table.Header bg="gray.50">
                 <Table.Row>
-                  <Table.ColumnHeader>Form Name</Table.ColumnHeader>
-                  <Table.ColumnHeader>Last Updated</Table.ColumnHeader>
-                  <Table.ColumnHeader>Responses</Table.ColumnHeader>
-                  <Table.ColumnHeader>Action</Table.ColumnHeader>
+                  <Table.ColumnHeader w="40%">Form Name</Table.ColumnHeader>
+                  <Table.ColumnHeader w="30%">Last Updated</Table.ColumnHeader>
+                  <Table.ColumnHeader w="10%">Responses</Table.ColumnHeader>
+                  <Table.ColumnHeader w="20%">Action</Table.ColumnHeader>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 {filtered.map(form => (
                   <Table.Row key={form.id} _hover={{ bg: 'gray.50' }}>
-                    <Table.Cell>{form.title}</Table.Cell>
-                    <Table.Cell color="gray.600">{form.updated}</Table.Cell>
-                    <Table.Cell>{form.responses}</Table.Cell>
-                    <Table.Cell>
-                      <Link to={`/fill`}>
-                        <Text color="colorPalette.600" _hover={{ textDecor: 'underline' }}>
-                          View →
-                        </Text>
-                      </Link>
+                    <Table.Cell w="40%">
+                      {isAnswered ? form.title : <Link onClick={() => analyzeForm(form)}>{form.title}</Link>}
+                    </Table.Cell>
+                    <Table.Cell color="gray.600" w="30%">{formatDistanceToNow(new Date(form.updatedAt), { addSuffix: true })}</Table.Cell>
+                    <Table.Cell  w="10%">{3}</Table.Cell>
+                    <Table.Cell w="20%">
+                      <Flex justify="space-between">
+                        <Link onClick={() => selectForm(form)}>
+                          <Text color="colorPalette.600" _hover={{ textDecor: 'underline' }}>
+                            { isAnswered ? "View →" : (publishedForms.has(form.id) ? "Unpublish" : "Publish") }
+                          </Text>
+                        </Link>
+                        <Link>
+                          {isAnswered ? <></> : <FiTrash2 size={20} color="red" onClick={() => deleteFormNow(form)} />}
+                        </Link>
+                      </Flex>
                     </Table.Cell>
                   </Table.Row>
                 ))}
@@ -129,15 +207,20 @@ export default function FormManagementPage() {
             {filtered.map(form => (
               <Box key={form.id} bg="white" p="4" rounded="md" shadow="sm" _hover={{ shadow: 'md' }}>
                 <Text fontWeight="medium" mb="2">{form.title}</Text>
-                <Text fontSize="sm" color="gray.500" mb="1">Updated {form.updated}</Text>
+                <Text fontSize="sm" color="gray.500" mb="1">Updated {formatDistanceToNow(new Date(form.updatedAt), { addSuffix: true })}</Text>
                 <Text fontSize="sm" fontWeight="semibold" mb="4">
-                  {form.responses} responses
+                  {3} responses
                 </Text>
-                <Link to={`/forms/${form.id}`}>
-                  <Text color="teal.600" _hover={{ textDecor: 'underline' }}>
-                    View →
-                  </Text>
-                </Link>
+                <Flex justify="space-between">
+                  <Link onClick={() => selectForm(form)}>
+                    <Text color="colorPalette.600" _hover={{ textDecor: 'underline' }}>
+                      { isAnswered ? "View →" : (publishedForms.has(form.id) ? "Unpublish" : "Publish") }
+                    </Text>
+                  </Link>
+                  <Link>
+                    {isAnswered ? <></> : <FiTrash2 size={20} color="red" onClick={() => deleteFormNow(form)} />}
+                  </Link>
+                </Flex>
               </Box>
             ))}
           </Grid>

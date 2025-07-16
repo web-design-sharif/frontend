@@ -5,14 +5,17 @@ import App from './App';
 import { system } from "./theme"; // Import the theme instead of system
 import Fonts from './fonts';
 import { AuthProvider } from './context/AuthContext';
+import { FormProvider } from './context/FormContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 root.render(
   <React.StrictMode>
     <ChakraProvider value={system}>
       <AuthProvider>
-        <Fonts />
-        <App />
+        <FormProvider>
+          <Fonts />
+          <App />
+        </FormProvider>
       </AuthProvider>
     </ChakraProvider>
   </React.StrictMode>

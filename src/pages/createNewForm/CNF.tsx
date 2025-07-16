@@ -14,15 +14,34 @@ import {
   Portal,
   Textarea,
   Stack,
+  Switch,
 } from '@chakra-ui/react';
 import { useAuth } from "../../hooks/useAuth";
+import { Form, Option, Question, QuestionType, User } from '../../types';
 import { useNavigate } from 'react-router';
+import { useCreate } from '../../hooks/useCreateForm';
 
 type FormItem = {
   name: string;
   type: string;
+  isRequired: boolean;
   initialValue?: string;
   radioValues: string[]
+};
+
+const questionTypeConverter = (input: string) => {
+  switch (input) {
+    case "normal-text": return QuestionType.NORMAL_TEXT;
+    case "password": return QuestionType.PASSWORD;
+    case "email": return QuestionType.EMAIL;
+    case "paragraph": return QuestionType.TEXT_AREA;
+    case "multi-choice": return QuestionType.MULTI_CHOICE;
+    case "checkbox": return QuestionType.CHECKBOX;
+    case "dropdown": return QuestionType.DROPDOWN;
+    case "time": return QuestionType.TIME;
+    case "date": return QuestionType.DATE;
+  }
+  return QuestionType.NORMAL_TEXT;
 };
 
 const CNF = () => {
@@ -30,12 +49,32 @@ const CNF = () => {
   const [backgroundColor, setBackGroundColor] = useState<string>('white');
   const [title, setTitle] = useState<string>('Untitled Form');
   const [form, setForm] = useState<FormItem[]>([]);
-  const [completeForm, setCompleteForm] = useState({});
+  const [completeForm, setCompleteForm] = useState<Form>();
+  const [submitters, setSubmitters] = useState<string[]>([]);
   const { user } = useAuth();
+  const { error, createForm } = useCreate();
+  const navigate = useNavigate();
+
+  if (!user) return;
 
   const handleCompleteForm = () => {
-    setCompleteForm({"name": title, "bgColor": backgroundColor, "font": selectedFont, "questions": form, "owner_id": user ? user.id : '-', "updated": "Now", "responses": 1
+    const questions: Question[] = [];
+    form.forEach((formItem, index) => {
+      const options: Option[] = [];
+      formItem.radioValues.forEach((value) => {
+        options.push({id: 0, optionText: value})
+      })
+      questions.push({id: 0, title: formItem.name, questionType: questionTypeConverter(formItem.type), isRequired: formItem.isRequired, createdAt: '', updatedAt: '', options: options})
+    });
 
+    const submitEmails: User[] = [];
+    submitters.forEach((value) => submitEmails.push({email: value, id: 0, password: ''}));
+
+    const formComplete: Form = {id: 0, ownerId: user.id, published: false, title: title, question: questions, submitters: submitEmails, updatedAt: ''};
+    createForm(formComplete).then((success) => {
+      if (success) {
+        navigate('/forms');
+      }
     });
   }
 
@@ -58,13 +97,23 @@ const CNF = () => {
   const addItem = (type: string) => {
     const n = [];
     form.map((item) => n.push(item));
-    n.push({ name: "Untitled Question", type: type, initialValue: "", radioValues: [] });
+    n.push({ name: "Untitled Question", type: type, initialValue: "", radioValues: [], isRequired: false });
     setForm(n);
   };
 
   const removeItem = (i: number) => {
     const n: FormItem[] = [];
     form.map((item, index) => {if (index != i) n.push(item)});
+    setForm(n);
+  };
+
+  const makeRequired = (i: number, checked: boolean) => {
+    const n: FormItem[] = [];
+    form.map((item, index) => {
+      if (index == i) 
+        item.isRequired = true;
+      n.push(item);
+    });
     setForm(n);
   };
 
@@ -117,7 +166,7 @@ const CNF = () => {
 
     const [texts, setTexts] = useState<string[]>(form[index].radioValues.length > 0 ? form[index].radioValues : ['Option 1', 'Option 2']);
     return (
-      <Flex justify="space-between">
+      <Flex justify="flex-start">
       <Stack gap={0}>
         <Button 
           onClick={() => {
@@ -162,7 +211,6 @@ const CNF = () => {
     );
   };
 
-  const navigate = useNavigate();
 
   return (
     <Flex minH="100vh">
@@ -201,28 +249,40 @@ const CNF = () => {
 
             <VStack align="stretch">
               {form.map((item, index) => (
-                <Flex justify="space-between" key={index}>
+                <Stack gap={3}>
+                <Flex justify="space-between" key={index} align="center">
                 <Box>
                   <EditableText initialText={item.name} font={selectedFont} index={index} />
-                  {item.type == "normal-text" || item.type == "password" || item.type == "email" ? 
+                  
+                </Box>
+                <Flex align="center">
+                  
+                  <Switch.Root size="sm" onCheckedChange={e => makeRequired(index, e.checked)}>
+                    <Switch.HiddenInput />
+                    <Switch.Control />
+                    <Switch.Label fontSize="xs">Is Required?</Switch.Label>
+                  </Switch.Root>
+                  <Button 
+                    onClick={() => {
+                      removeItem(index);
+                    }}
+                    size="md"
+                    padding={0}
+                    width={5}
+                    height={5}
+                    backgroundColor={backgroundColor}
+                    color="red"
+                  >x</Button>
+                </Flex>
+                
+                </Flex>
+                {item.type == "normal-text" || item.type == "password" || item.type == "email" ? 
                     <Input fontFamily={selectedFont} onChange={(e) => handleInitialValueChange(index, e.target.value)} /> : 
                     item.type == "paragraph" ? <Textarea fontFamily={selectedFont} onChange={(e) => handleInitialValueChange(index, e.target.value)} /> : 
                     item.type == "multi-choice" || item.type == "checkbox" || item.type == "dropdown" ? <MultiChoice index={index} /> : 
                     item.type == "time" || item.type == "date" ? <Input disabled width={150} placeholder={item.type} /> : <></>
                   }
-                </Box>
-                <Button 
-                  onClick={() => {
-                    removeItem(index);
-                  }}
-                  size="md"
-                  padding={0}
-                  width={5}
-                  height={5}
-                  backgroundColor={backgroundColor}
-                  color="red"
-                >x</Button>
-                </Flex>
+                </Stack>
               ))}
               <Menu.Root positioning={{ placement: "bottom" }} onSelect={(details) => addItem(details.value)}>
                 <Menu.Trigger asChild>
@@ -294,8 +354,13 @@ const CNF = () => {
                 ))}
               </HStack>
             </Box>
+
+            <Textarea onChange={(e) => {setSubmitters(e.target.value.split(' '))}} placeholder='Enter submitters (separated by space)' />
+            <Text fontSize="2xs" color="colorPalette.400" fontWeight="medium">{error}</Text>
           </Box>
         </Flex>
+
+       
 
         <Button mt="32px" colorScheme="colorPalette" onClick={() => {handleCompleteForm();console.log(completeForm);}}>
           Publish Form
