@@ -260,7 +260,6 @@ const Analyze = () => {
               info.question.options.forEach((opt, optIndex) => {
                 if (selOpt.optionId == opt.id && info.selectedOptions)
                   info.selectedOptions[optIndex] += 1;
-                console.log(selOpt.id, opt.id);
               })
             });
             if (answer.answerOptions.length > 0)
@@ -272,9 +271,6 @@ const Analyze = () => {
   });
 
 
-
-  console.log(allInfo)
-  console.log(allResponses)
 
   return (
     <Flex minH="100vh">

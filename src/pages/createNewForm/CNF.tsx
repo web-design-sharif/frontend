@@ -362,7 +362,7 @@ const CNF = () => {
 
        
 
-        <Button mt="32px" colorScheme="colorPalette" onClick={() => {handleCompleteForm();console.log(completeForm);}}>
+        <Button mt="32px" colorScheme="colorPalette" onClick={() => {handleCompleteForm();}}>
           Publish Form
         </Button>
       </Box>

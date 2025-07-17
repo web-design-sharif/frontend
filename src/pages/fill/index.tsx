@@ -188,6 +188,7 @@ const FormFiller = () => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const { submitForm } = useSubmit();
+  const [error, setError] = useState<string>('');
 
   if (form == null) {
     navigate('/forms');
@@ -224,16 +225,21 @@ const FormFiller = () => {
   };
 
   const handleSubmit = () => {
+    let s: boolean = true;
     formResponse.answers.forEach((answer, index) => {
       if ((answer.answerText == null || answer.answerText == '') && form.question[index].isRequired && answer.answerOptions.length == 0) {
-        alert('you havent\'t answered required questions.' + index);
+        setError('you havent\'t answered required questions, like the question no. ' + (index + 1));
+        s = false;
         return;
       }
     });
-    submitForm(formResponse).then((success) => {
-      if (success)
-        navigate('/forms');
-    });
+    if (s) {
+      submitForm(formResponse).then((success) => {
+        if (success)
+          navigate('/forms');
+      });
+    }
+    
 
   };
 
@@ -245,9 +251,12 @@ const FormFiller = () => {
           {form.question.map((item, index) => (
             <QuestionBuilder key={index} item={item} setAnswer={giveSpecificAnswer(giveAnswer)(index)} />
           ))}
+          <Stack>
           <Flex justify="flex-end">
             <Button onClick={handleSubmit}>Submit</Button>
           </Flex>
+          <Text fontSize="xs" color="colorPalette.400">{error}</Text>
+          </Stack>
         </Stack>
       </Flex>
     </Box>

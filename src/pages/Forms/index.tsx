@@ -27,7 +27,6 @@ export default function FormManagementPage() {
   // const [f, setf] = useState<>();
 
   const navigate = useNavigate();
-  console.log('all forms', allForms);
 
   let filtered = (isAnswered ? allForms : forms)
   // .filter((f: { title: string; }) =>

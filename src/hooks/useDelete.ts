@@ -16,7 +16,6 @@ export const useDelete = () => {
   const { user } = useAuth();
 
   const deleteForm = async (form_id: number) => {
-    console.log('test')
     if (!user) return;
 
     try {
