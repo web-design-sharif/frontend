@@ -115,7 +115,7 @@ export default function FormManagementPage() {
         <Heading size="md" mb="8">Form Builder</Heading>
         <VStack align="start" gap="4" flex="1">
           <Text opacity={isAnswered ? "0.8" : 1} _hover={{ opacity: 1, cursor: 'pointer' }} onClick={() => setAnswered(false)}>My Forms</Text>
-          <Text opacity={isAnswered ? 1 : "0.8"} _hover={{ opacity: 1, cursor: 'pointer' }} onClick={() => setAnswered(true)}>My Answered Forms</Text>
+          <Text opacity={isAnswered ? 1 : "0.8"} _hover={{ opacity: 1, cursor: 'pointer' }} onClick={() => setAnswered(true)}>My Answerable Forms</Text>
           {/* <Text opacity="0.8" _hover={{ opacity: 1, cursor: 'pointer' }}>Knowledge Base</Text> */}
           {/* <Text opacity="0.8" _hover={{ opacity: 1, cursor: 'pointer' }}>Help & Support</Text> */}
         </VStack>
@@ -205,7 +205,7 @@ export default function FormManagementPage() {
           <Grid templateColumns="repeat(3, 1fr)" gap="4">
             {filtered.map(form => (
               <Box key={form.id} bg="white" p="4" rounded="md" shadow="sm" _hover={{ shadow: 'md' }}>
-                <Text fontWeight="medium" mb="2">{form.title}</Text>
+                <Text fontWeight="medium" mb="2">{isAnswered ? form.title : <Link onClick={() => analyzeForm(form)}>{form.title}</Link>}</Text>
                 <Text fontSize="sm" color="gray.500" mb="1">Updated {formatDistanceToNow(new Date(form.updatedAt), { addSuffix: true })}</Text>
                 <Text fontSize="sm" fontWeight="semibold" mb="4">
                   {3} responses

@@ -46,9 +46,9 @@ const ShowList = ({ info } : { info: ChartInfo }) => {
 
 const ShowBarListChart = ({ info } : { info: ChartInfo }) => {
   const data = infoToData(info);
-  // let maxFrequency = Math.max(...data.map(item => item.value));
+  let maxFrequency = Math.max(...data.map(item => item.value));
 
-  const [viewList, setViewList] = useState<boolean>(/*maxFrequency == 1*/ false);
+  const [viewList, setViewList] = useState<boolean>(maxFrequency != 1);
 
   const chart = useChart<BarListData>({
     sort: { by: "value", direction: "desc" },
@@ -170,7 +170,7 @@ const ShowBarChart = ({ info } : { info: ChartInfo }) => {
                 axisLine={false}
                 tickLine={false}
                 dataKey={chart.key("value")}
-                tickFormatter={(value) => `${value / countOfData * 100}%`}
+                tickFormatter={(value) => `${parseFloat(((value / countOfData) * 100).toFixed(2))}%`}
               />
               <Tooltip
                 cursor={{ fill: chart.color("bg.muted") }}
@@ -215,7 +215,7 @@ const Sidebar = () => {
       <Heading size="md" mb="8">Form Builder</Heading>
       <VStack align="start" gap="4" flex="1">
         <Text opacity="0.8" _hover={{ opacity: 1, cursor: 'pointer' }} fontWeight="medium" onClick={() => navigate('/forms')}>My Forms</Text>
-        <Text opacity="0.8" _hover={{ opacity: 1, cursor: 'pointer' }} paddingLeft={5}>Responses</Text>
+        {/* <Text opacity="0.8" _hover={{ opacity: 1, cursor: 'pointer' }} paddingLeft={5}>Responses</Text> */}
         <Text opacity="1" _hover={{ opacity: 1, cursor: 'pointer' }} paddingLeft={5}>Analytics</Text>
         {/* <Text opacity="0.8" _hover={{ opacity: 1, cursor: 'pointer' }}>My Answered Forms</Text> */}
       </VStack>
