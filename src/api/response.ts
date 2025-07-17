@@ -1,7 +1,7 @@
 import { CreateFormResponse, FormResponse } from '../types';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/response';
+const API_URL = 'http://188.121.110.51:8080/response';
 
 export const submit = async (createFormResponse: CreateFormResponse) => {
   const response = await axios.post(`${API_URL}/submit`, createFormResponse);

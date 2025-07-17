@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Form } from '../types';
 
-const API_URL = 'http://localhost:8080/form';
+const API_URL = 'http://188.121.110.51:8080/form';
 
 export const getMyForms = async (owner_id: number): Promise<Form[]> => {
   const response = await axios.get<Form[]>(`${API_URL}/my-forms`, { params: { userId: owner_id } });
