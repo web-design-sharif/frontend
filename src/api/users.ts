@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://185.226.119.237/:8080';
+const API_URL = 'http://185.226.119.237:8080';
 
 export const getUserByEmail = async (email: string) => {
   const response = await axios.get(`${API_URL}`, {
