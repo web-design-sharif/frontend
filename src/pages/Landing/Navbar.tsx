@@ -108,7 +108,7 @@ const MenuButton = ({
           fontWeight="bold"
           borderWidth="2px"
           backgroundColor="colorPalette.400"
-          onClick={to == '/logout' ? logout : () => navigate(to)}
+          onClick={to == '/logout' ? () => {logout(); window.location.reload();} : () => navigate(to)}
           {...props}
         >
           {children}

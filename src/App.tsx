@@ -8,6 +8,7 @@ import CNF from './pages/createNewForm/CNF';
 import FormFiller from './pages/fill';
 import Analyze from './pages/analyze';
 import { Flex, Spinner } from '@chakra-ui/react';
+import { getItem } from './utils/storage';
 
 function App() {
   const { isLoggedIn, isLoading } = useAuth();
@@ -22,10 +23,10 @@ function App() {
         <Route index element={<Landing />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<SignIn />} />
-        <Route path="/forms" element={isLoggedIn ? <MyForms /> : <Navigate to="/login" />} />
-        <Route path="/create" element={isLoggedIn ? <CNF /> : <Navigate to="/login" />} />
-        <Route path="/fill" element={isLoggedIn ? <FormFiller /> : <Navigate to="/login" />} />
-        <Route path="/analyze" element={isLoggedIn ? <Analyze /> : <Navigate to="/login" />} />
+        <Route path="/forms" element={!!getItem('jwt') ? <MyForms /> : <Navigate to="/login" />} />
+        <Route path="/create" element={!!getItem('jwt') ? <CNF /> : <Navigate to="/login" />} />
+        <Route path="/fill" element={!!getItem('jwt') ? <FormFiller /> : <Navigate to="/login" />} />
+        <Route path="/analyze" element={!!getItem('jwt') ? <Analyze /> : <Navigate to="/login" />} />
       </Routes>
     </BrowserRouter>
   );

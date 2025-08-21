@@ -25,7 +25,11 @@ const SignIn = () => {
   const handleLogin = async () => {
     const success = await login(email, password);
     if (success) {
-      navigate('/forms');
+      setTimeout(() => {
+        console.log('navigating')
+        navigate('/forms');
+      }, 500);
+      
       // Redirect or store user info in localStorage as needed
     }
   };
