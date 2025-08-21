@@ -16,7 +16,7 @@ export const useSubmit = () => {
 
   const submitForm = async (formResponse: FormResponse) => {
     try {
-      const response = await submit({userId: formResponse.responderId, formId: formResponse.formId, formResponse: formResponse});
+      const response = await submit({userId: formResponse.responderId, formId: formResponse.formId, formResponses: [formResponse]});
       return true;
     } catch (error: unknown) {
       const apiError = error as ApiError;

@@ -13,6 +13,7 @@ import { useState, ReactNode, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 import { useAuth } from "../../hooks/useAuth";
+import { getItem } from "../../utils/storage";
 
 const handleScroll = (id: string) => {
   if (id == "") {
@@ -118,8 +119,6 @@ const MenuButton = ({
 };
 
 const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
-  const { isLoggedIn } = useAuth();
-
   return (
     <Box
       display={{ base: isOpen ? "block" : "none", md: "flex" }} // Use flex for horizontal layout
@@ -156,16 +155,16 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
         gap={{ base: "2", md: "6" }}
       >
         <MenuButton
-          to={isLoggedIn ? "/forms" : "/login"}
+          to={!!getItem('jwt') ? "/forms" : "/login"}
           variant="outline"
           borderColor="colorPalette.400"
           borderWidth="medium"
           color="colorPalette.400"
           backgroundColor="white"
         >
-          {isLoggedIn ? "Dashboard" : "Sign In"}
+          {!!getItem('jwt') ? "Dashboard" : "Sign In"}
         </MenuButton>
-        <MenuButton to={isLoggedIn ? "/logout" : "/signup"}>{isLoggedIn ? "Logout" : "Sign Up"}</MenuButton>
+        <MenuButton to={!!getItem('jwt') ? "/logout" : "/signup"}>{!!getItem('jwt') ? "Logout" : "Sign Up"}</MenuButton>
       </Stack>
     </Box>
   );

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { getFormById } from '../api/forms';
 import { useAuth } from './useAuth';
 import { Form } from '../types';
+import { getItem } from '../utils/storage';
 
 interface ApiError extends Error {
   response?: {
@@ -14,14 +15,13 @@ interface ApiError extends Error {
 
 export const useGetForm = () => {
   const [error, setError] = useState<null | string>(null);
-  const { user } = useAuth();
   const [form, setForm] = useState<Form>();
 
   const getForm = async (form_id: number) => {
-    if (!user) return;
+    if (!getItem('jwt')) return;
 
     try {
-      const responseForm = await getFormById(user.id, form_id);
+      const responseForm = await getFormById(form_id);
       setForm(responseForm);
       
       return responseForm;

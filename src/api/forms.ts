@@ -29,9 +29,9 @@ export const deleteFormApi = async (form_id: number) => {
   return response.data;
 };
 
-export const getFormById = async (owner_id: number, form_id: number): Promise<Form> => {
+export const getFormById = async (form_id: number): Promise<Form> => {
   const token = getItem("jwt");
-  const response = await axios.get<Form>(`${API_URL}/id`, { params: {userId: owner_id, formId: form_id}, headers: { Authorization: `Bearer ${token}` } });
+  const response = await axios.get<Form>(`${API_URL}/${form_id}`, { headers: { Authorization: `Bearer ${token}` } });
   return response.data;
 };
 

@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import { useState } from "react";
 import { color } from "@chakra-ui/styled-system";
 import { Cursor } from "recharts/types/component/Cursor";
+import { getItem } from "../../utils/storage";
 
 interface ChartInfo {
   question: Question;
@@ -276,12 +277,12 @@ const Sidebar = ({ viewForm, setVeiwForm } : { viewForm: string, setVeiwForm: (v
 
 const Analyze = () => {
   const { form } = useForm();
-  const { user } = useAuth();
   const { allResponses } = useGetResponses();
+  console.log(allResponses);
   const [viewForm, setVeiwForm] = useState<string>('analyze');
   const [currentUserIndex, setCurrentUserIndex] = useState<number>(0);
 
-  if (!form || !user)
+  if (!form || !getItem('jwt'))
     return <></>;
 
   const tmp: ChartInfo = {
@@ -345,7 +346,7 @@ const Analyze = () => {
   }
 
   
-  
+  console.log(responseInfo)
 
 
   return (

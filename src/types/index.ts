@@ -33,7 +33,7 @@ export type Option = {
 export type CreateFormResponse = {
   userId: number;
   formId: number;
-  formResponse: FormResponse;
+  formResponses: [FormResponse];
 }
 
 export type FormResponse = {

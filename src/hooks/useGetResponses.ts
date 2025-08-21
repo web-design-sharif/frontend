@@ -3,20 +3,20 @@ import { FormResponse } from '../types';
 import { useAuth } from './useAuth';
 import { getAllResponses } from '../api/response';
 import { useForm } from './useForm';
+import { getItem } from '../utils/storage';
 
 export const useGetResponses = () => {
   const [allResponses, setAllResponses] = useState<FormResponse[]>([]);
   const [loadingAll, setLoading] = useState(true);
   const [errorAll, setError] = useState<null | string>(null);
-  const { user } = useAuth();
   const { form } = useForm();
 
   useEffect(() => {
     const fetchResponses = async () => {
-      if (!user || !form) return;
+      if (!getItem('jwt') || !form) return;
 
       try {
-        const allAnswers = await getAllResponses(user.id, form.id);
+        const allAnswers = await getAllResponses(form.id);
         setAllResponses(allAnswers);
       } catch (err) {
         setError('Failed to load forms');
@@ -26,7 +26,7 @@ export const useGetResponses = () => {
     };
 
     fetchResponses();
-  }, [user, form]);
+  }, [getItem('jwt'), form]);
 
   return { allResponses, loadingAll, errorAll };
 };

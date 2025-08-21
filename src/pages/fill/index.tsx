@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { AnswerOption, FormResponse, Question, QuestionType } from "../../types";
 import { useAuthContext } from "../../context/AuthContext";
 import { useSubmit } from "../../hooks/useSubmit";
+import { getItem } from "../../utils/storage";
 
 
 // let form = {
@@ -185,7 +186,6 @@ const FormFiller = () => {
   // ]
 
   const { form } = useFormContext();
-  const { user } = useAuthContext();
   const navigate = useNavigate();
   const { submitForm } = useSubmit();
   const [error, setError] = useState<string>('');
@@ -195,7 +195,7 @@ const FormFiller = () => {
     return;
   }
 
-  if (user == null) {
+  if (!getItem('jwt')) {
     navigate('/');
     return;
   }
@@ -204,7 +204,7 @@ const FormFiller = () => {
   const [formResponse, setFormResponse] = useState<FormResponse>({
     id: 0,
     formId: form.id,
-    responderId: user.id,
+    responderId: 0,
     answers: form.question.map((item) => ({id: 0, questionId: item.id, answerText: '', answerOptions: []}))
   });
 

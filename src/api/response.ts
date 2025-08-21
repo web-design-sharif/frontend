@@ -10,8 +10,8 @@ export const submit = async (createFormResponse: CreateFormResponse) => {
   return response.data;
 };
 
-export const getAllResponses = async (owner_id: number, form_id: number) => {
+export const getAllResponses = async (form_id: number) => {
   const token = getItem("jwt");
-  const response = await axios.get<FormResponse[]>(`${API_URL}/all-responses`, { params: {userId: owner_id, formId: form_id} });
+  const response = await axios.get<FormResponse[]>(`${API_URL}/${form_id}/responses`, { headers: { Authorization: `Bearer ${token}` } });
   return response.data;
 };
