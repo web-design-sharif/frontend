@@ -8,12 +8,18 @@ import { Box, Button, Flex, Heading, Stack, Text, VStack } from "@chakra-ui/reac
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { color } from "@chakra-ui/styled-system";
+import { Cursor } from "recharts/types/component/Cursor";
 
 interface ChartInfo {
   question: Question;
   answerTexts: string[];
   selectedOptions?: number[];
   count?: number;
+}
+
+interface ResponseInfo {
+  question: Question;
+  answerTexts: string[];
 }
 
 const infoToData = (info: ChartInfo) => {
@@ -36,7 +42,7 @@ const ShowList = ({ info } : { info: ChartInfo }) => {
     //   <Heading size="3xl" >{info.question.title}</Heading>
       <Box height="300px" overflow="auto" backgroundColor="white" padding={4}>
         <Stack gap={1}>
-          {info.answerTexts.map((ans) => <Flex backgroundColor="colorPalette.100" padding={2} rounded="md"><Text>{ans}</Text></Flex>)}
+          {info.answerTexts.map((ans, ind) => <Flex backgroundColor="colorPalette.100" padding={2} rounded="md" key={ind}><Text>{ans}</Text></Flex>)}
         </Stack>
       </Box>
     // </Stack>
@@ -208,7 +214,46 @@ const ShowChart = ({ info } : { info: ChartInfo }) => {
   }
 };
 
-const Sidebar = () => {
+const ShowSingleResponse = ({ info }: { info: ResponseInfo }) => {
+  return (
+    <Stack padding={4} gap={4} backgroundColor="white" rounded="md" shadow="sm" overflowX="auto">
+      <Heading size="3xl" >{info.question.title}</Heading>
+      <Flex shadow="sm" backgroundColor="colorPalette.100" padding={2} rounded="md">
+        <Text>{info.answerTexts[0] != '' ? info.answerTexts[0] : '\n'}</Text>
+      </Flex>
+    </Stack>
+  );
+};
+
+const ShowMultipleResponse = ({ info }: { info: ResponseInfo }) => {
+  return (
+    <Stack padding={4} gap={4} backgroundColor="white" rounded="md" shadow="sm" overflowX="auto">
+      <Heading size="3xl" >{info.question.title}</Heading>
+      <Flex justify="space-between">
+        {info.question.options.map((opt, index) => (
+          <Flex shadow="sm" backgroundColor={info.answerTexts.includes(opt.optionText) ? "green.200" : "colorPalette.100"} padding={2} rounded="md" key={index} minW="20%" justify="center"><Text>{opt.optionText}</Text></Flex>
+        ))}
+      </Flex>
+    </Stack>
+  );
+};
+
+const ShowResponse = ({ responseInfo }: { responseInfo: ResponseInfo }) => {
+  switch (responseInfo.question.questionType) {
+    case QuestionType.NORMAL_TEXT: return (<ShowSingleResponse info={responseInfo} />);
+    case QuestionType.PASSWORD: return (<ShowSingleResponse info={responseInfo} />);
+    case QuestionType.EMAIL: return (<ShowSingleResponse info={responseInfo} />);
+    case QuestionType.TEXT_AREA: return (<ShowSingleResponse info={responseInfo} />);
+    case QuestionType.MULTI_CHOICE: return (<ShowMultipleResponse info={responseInfo} />);
+    case QuestionType.CHECKBOX: return (<ShowMultipleResponse info={responseInfo} />);
+    case QuestionType.DROPDOWN: return (<ShowMultipleResponse info={responseInfo} />);
+    case QuestionType.DATE: return (<ShowSingleResponse info={responseInfo} />);
+    case QuestionType.TIME: return (<ShowSingleResponse info={responseInfo} />);
+    default: return (<></>);
+  }
+}
+
+const Sidebar = ({ viewForm, setVeiwForm } : { viewForm: string, setVeiwForm: (view: string) => void }) => {
   const navigate = useNavigate();
   return (
     <Box w="64" bg="colorPalette.900" color="white" p="6" display="flex" flexDir="column" position="fixed" height="100vh">
@@ -216,7 +261,8 @@ const Sidebar = () => {
       <VStack align="start" gap="4" flex="1">
         <Text opacity="0.8" _hover={{ opacity: 1, cursor: 'pointer' }} fontWeight="medium" onClick={() => navigate('/forms')}>My Forms</Text>
         {/* <Text opacity="0.8" _hover={{ opacity: 1, cursor: 'pointer' }} paddingLeft={5}>Responses</Text> */}
-        <Text opacity="1" _hover={{ opacity: 1, cursor: 'pointer' }} paddingLeft={5}>Analytics</Text>
+        <Text opacity={viewForm == 'analyze' ? "1" : "0.8"} _hover={{ opacity: 1, cursor: 'pointer' }} paddingLeft={5} onClick={() => setVeiwForm('analyze')}>Analytics</Text>
+        <Text opacity={viewForm == 'response' ? "1" : "0.8"} _hover={{ opacity: 1, cursor: 'pointer' }} paddingLeft={5} onClick={() => setVeiwForm('response')}>Responses</Text>
         {/* <Text opacity="0.8" _hover={{ opacity: 1, cursor: 'pointer' }}>My Answered Forms</Text> */}
       </VStack>
       <Box mt="auto">
@@ -232,6 +278,8 @@ const Analyze = () => {
   const { form } = useForm();
   const { user } = useAuth();
   const { allResponses } = useGetResponses();
+  const [viewForm, setVeiwForm] = useState<string>('analyze');
+  const [currentUserIndex, setCurrentUserIndex] = useState<number>(0);
 
   if (!form || !user)
     return <></>;
@@ -269,19 +317,78 @@ const Analyze = () => {
       });
     });
   });
+  
+  const responseInfo: ResponseInfo[] = [];
 
+  form.question.forEach((q, index) => {
+    responseInfo.push({question: q, answerTexts: []});
+  });
+
+  if (allResponses.length > 0) {
+    allResponses[currentUserIndex].answers.forEach((ans, index) => {
+      responseInfo.forEach((ri, riIndex) => {
+        if (ri.question.id == ans.questionId) {
+          if (ans.answerText == '' && ans.answerOptions.length > 0) {
+            ri.question.options.forEach((opt, optInd) => {
+              ans.answerOptions.forEach((ao) => {
+                if (ao.optionId == opt.id) {
+                  ri.answerTexts.push(opt.optionText);
+                }
+              })
+            });
+          } else {
+            ri.answerTexts = [ans.answerText];
+          }
+        }
+      });
+    });
+  }
+
+  
+  
 
 
   return (
     <Flex minH="100vh">
-      <Sidebar />
-      <Stack flex="1" bg="gray.100" p="8" overflowY="auto" gap={5} marginLeft="64">
+      <Sidebar setVeiwForm={setVeiwForm} viewForm={viewForm} />
+      {viewForm == 'analyze' ? <Stack flex="1" bg="gray.100" p="8" overflowY="auto" gap={5} marginLeft="64">
         {allInfo.map((info, index) => <ShowChart info={info} key={index}/>)}
         {/* <ShowBarListChart info={tmp} />
         <ShowPieChart info={tmp} />
         <ShowBarChart info={tmp} /> */}
         
-      </Stack>
+      </Stack> : <Stack flex="1" bg="gray.100" p="8" overflowY="auto" gap={5} marginLeft="64">
+        <Flex justify="center" gap={4}>
+          <Text 
+            onClick={() => setCurrentUserIndex(currentUserIndex - 1 < 0 ? 0 : currentUserIndex - 1)}
+            backgroundColor="transparent" 
+            color="black"
+            padding={0}
+            margin={0}
+            _hover={{cursor: "pointer"}}
+            userSelect="none"
+          >
+            {'<'}
+          </Text>
+          
+          <Text>Answer {currentUserIndex + 1} out of {allResponses.length}</Text>
+
+          
+
+          <Text 
+            onClick={() => setCurrentUserIndex(currentUserIndex + 1 >= allResponses.length ? currentUserIndex : currentUserIndex + 1)}
+            backgroundColor="transparent" 
+            color="black"
+            padding={0}
+            margin={0}
+            _hover={{cursor: "pointer"}}
+            userSelect="none"
+          >
+            {'>'}
+          </Text>
+        </Flex>
+        {responseInfo.map((ri, index) => <ShowResponse responseInfo={ri} key={index} />)}
+      </Stack>}
 
       
     </Flex>

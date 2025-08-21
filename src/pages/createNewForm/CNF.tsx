@@ -20,6 +20,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { Form, Option, Question, QuestionType, User } from '../../types';
 import { useNavigate } from 'react-router';
 import { useCreate } from '../../hooks/useCreateForm';
+import { getItem } from '../../utils/storage';
 
 type FormItem = {
   name: string;
@@ -51,11 +52,10 @@ const CNF = () => {
   const [form, setForm] = useState<FormItem[]>([]);
   const [completeForm, setCompleteForm] = useState<Form>();
   const [submitters, setSubmitters] = useState<string[]>([]);
-  const { user } = useAuth();
   const { error, createForm } = useCreate();
   const navigate = useNavigate();
 
-  if (!user) return;
+  if (!getItem('jwt')) return;
 
   const handleCompleteForm = () => {
     const questions: Question[] = [];
@@ -70,7 +70,7 @@ const CNF = () => {
     const submitEmails: User[] = [];
     submitters.forEach((value) => submitEmails.push({email: value, id: 0, password: ''}));
 
-    const formComplete: Form = {id: 0, ownerId: user.id, published: false, title: title, question: questions, submitters: submitEmails, updatedAt: ''};
+    const formComplete: Form = {id: 0, ownerId: 0, published: false, title: title, question: questions, submitters: submitEmails, updatedAt: ''};
     createForm(formComplete).then((success) => {
       if (success) {
         navigate('/forms');

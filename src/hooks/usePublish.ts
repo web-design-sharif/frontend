@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { publish } from '../api/forms';
 import { useAuth } from './useAuth';
+import { getItem } from '../utils/storage';
 
 interface ApiError extends Error {
   response?: {
@@ -16,10 +17,10 @@ export const usePublish = () => {
   const { user } = useAuth();
 
   const publishForm = async (form_id: number) => {
-    if (!user) return;
+    if (!getItem('jwt')) return;
 
     try {
-      const response = await publish(user.id, form_id);
+      const response = await publish(form_id);
       return true;
     } catch (error: unknown) {
       const apiError = error as ApiError;

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { loginUser } from '../api/users';
 import { useAuth } from './useAuth';
+import { setItem } from '../utils/storage';
 
 interface ApiError extends Error {
   response?: {
@@ -38,8 +39,10 @@ export const useLogin = () => {
     }
     
     try {
-      const user = await loginUser({ email, password });
-      setAuthUser({ id: user.id, email: user.email });
+      const token = await loginUser({ email, password });
+      setItem("jwt", token);
+      console.log(token)
+      // setAuthUser({ id: user.id, email: user.email });
       return true;
     } catch (error: unknown) {
       const apiError = error as ApiError;

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { deleteFormApi } from '../api/forms';
 import { useAuth } from './useAuth';
+import { getItem } from '../utils/storage';
 
 interface ApiError extends Error {
   response?: {
@@ -13,13 +14,12 @@ interface ApiError extends Error {
 
 export const useDelete = () => {
   const [error, setError] = useState<null | string>(null);
-  const { user } = useAuth();
 
   const deleteForm = async (form_id: number) => {
-    if (!user) return;
+    if (!getItem('jwt')) return;
 
     try {
-      const response = await deleteFormApi(user.id, form_id);
+      const response = await deleteFormApi(form_id);
       return true;
     } catch (error: unknown) {
       const apiError = error as ApiError;
